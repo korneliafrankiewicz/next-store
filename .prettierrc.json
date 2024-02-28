@@ -1,0 +1,10 @@
+{
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "htmlWhitespaceSensitivity": "css",
+  "tabWidth": 2,
+  "embeddedLanguageFormatting": "auto"
+}

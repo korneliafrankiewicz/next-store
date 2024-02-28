@@ -1,20 +1,29 @@
-import Image from 'next/image';
-import styles from './page.module.css';
-import BlogList from '../app/pages/api/blogs';
+'use client';
+import BlogList from './pages/api/blogs';
 import TemporaryDrawer from './components/menu/Menu';
 import Header from './components/header/Header';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
-import ButtonComponent from './components/buttonComponent/ButtonComponent';
+import { css } from '@emotion/react';
+import image from '../app/assets/wood_image.jpg';
+import styled from '@emotion/styled';
 
-export default function Home({ posts }: any) {
+const Main = styled.div({
+  position: 'relative',
+  width: '100vw',
+  height: '100vh',
+  overflow: 'hidden',
+  backgroundImage: `url('../app/assets/wood_image.jpg')`,
+});
+
+export default function Home() {
   return (
     <ThemeProvider theme={theme}>
-      <main className={styles.main}>
+      <Main>
         <TemporaryDrawer />
         <Header />
         {/* <BlogList /> */}
-      </main>
+      </Main>
     </ThemeProvider>
   );
 }
