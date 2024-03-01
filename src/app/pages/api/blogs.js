@@ -1,7 +1,4 @@
-'use client'
-
 import { useEffect, useState } from 'react';
-import { loadPosts } from '../../../../lib/api';
 
 const BlogList = () => {
 

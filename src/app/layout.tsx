@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { loadPosts } from '../../lib/api';
+import { loadProducts } from '../../lib/products';
 import './globals.css';
 import type { InferGetStaticPropsType, GetStaticProps } from 'next';
 
