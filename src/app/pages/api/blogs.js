@@ -25,19 +25,3 @@ const BlogList = () => {
 };
 
 export default BlogList;
-
-// // This function runs only on the server side
-// export async function getStaticProps() {
-//   // Instead of fetching your `/api` route you can call the same
-//   // function directly in `getStaticProps`
-//   const posts = await loadPosts(
-//     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/posts`
-//   );
-//   console.log(posts);
-//   // Props returned will be passed to the page component
-//   return {
-//     props: {
-//        posts
-//     },
-//   };
-// }

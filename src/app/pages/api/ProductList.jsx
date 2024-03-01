@@ -1,4 +1,3 @@
-import { loadProducts } from '../../../../lib/products';
 import Products from '../../components/products/Products';
 import useSWR from 'swr';
 
@@ -17,42 +16,30 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function ProductList() {
   const {
-    data: comments,
+    data: products,
     isLoading,
     isError: error,
-  } = useSWR(
-    'https://jsonplaceholder.typicode.com/comments?_limit=6',
-    fetcher,
-    { revalidateOnFocus: false, revalidateOnReconnect: false }
-  );
+  } = useSWR(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products`, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   if (error) {
     return <p>Failed to fetch</p>;
   }
 
   if (isLoading) {
-    return <p>Loading comments...</p>;
+    return <p>Loading products...</p>;
   }
 
   return (
     <ul>
-      {comments.map((comment, index) => (
-        <li key={index}>{comment.name}</li>
+      {products.data.map((product, i) => (
+        <li key={product.attributes.Title}>
+          {product.attributes.Title}
+          {product.attributes.Description}
+        </li>
       ))}
     </ul>
   );
 }
-
-// export async function getStaticProps() {
-//   // Fetch data from an API
-//   const productResponse = await loadProducts(
-//     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products`
-//   );
-
-//   console.log(productResponse);
-
-//   // Return the data as props
-//   return {
-//     products: { productResponse },
-//   };
-// }
