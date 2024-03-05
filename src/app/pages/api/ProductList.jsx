@@ -1,20 +1,8 @@
-import Products from '../../components/products/Products';
 import useSWR from 'swr';
-
-// const ProductList = ({ products }) => {
-//   return (
-//     <>
-//       <h2>Products bleble</h2>
-//       <Products products={products} />
-//     </>
-//   );
-// };
-
-// export default ProductList;
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function ProductList() {
+const ProductList = () => {
   const {
     data: products,
     isLoading,
@@ -34,7 +22,7 @@ export default function ProductList() {
 
   return (
     <ul>
-      {products.data.map((product, i) => (
+      {products?.data.map((product, i) => (
         <li key={product.attributes.Title}>
           {product.attributes.Title}
           {product.attributes.Description}
@@ -42,4 +30,6 @@ export default function ProductList() {
       ))}
     </ul>
   );
-}
+};
+
+export default ProductList;
