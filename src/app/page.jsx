@@ -1,21 +1,15 @@
 'use client';
-import BlogList from './pages/api/BlogList';
-import Menu from './components/menu/Menu';
-import Header from './components/header/Header';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../lib/theme/theme';
 import image from './assets/wood_image.jpg';
 import styled from '@emotion/styled';
-import ProductList from './pages/api/ProductList';
+import Home from './components/pages/home/Home';
 
 export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Main>
-        <Menu />
-        <Header />
-        <BlogList />
-        <ProductList />
+        <Home />
       </Main>
     </ThemeProvider>
   );
