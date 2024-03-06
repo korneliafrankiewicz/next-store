@@ -2,25 +2,25 @@
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../lib/theme/theme';
 import image from './assets/wood_image.jpg';
-import styled from '@emotion/styled';
 import Home from './components/pages/home/Home';
+import Box from '@mui/material/Box';
 
 export const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Main>
+      <Box sx={mainWrapper}>
         <Home />
-      </Main>
+      </Box>
     </ThemeProvider>
   );
 };
 
-const Main = styled.div`
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-image: url(${image.src});
-`;
+const mainWrapper = {
+  position: 'relative',
+  width: '100vw',
+  height: '100vh',
+  overflow: 'hidden',
+  backgroundImage: `url(${image.src})`,
+};
 
 export default App;

@@ -12,9 +12,9 @@ const headerWrapper = css`
   display: flex;
 `;
 
-const subheader = css`
-  padding-left: 200px;
-`;
+const subheader = {
+  paddingLeft: '200px',
+};
 
 const Header = () => {
   return (
@@ -23,7 +23,7 @@ const Header = () => {
         <div className={header}>
           <Typography variant='h1'>Stoliki</Typography>
           <Typography variant='h1'>dębowe</Typography>
-          <Typography className={subheader} variant='h5Italic'>
+          <Typography sx={subheader} variant='h5Italic'>
             Ręcznie robione
           </Typography>
         </div>
