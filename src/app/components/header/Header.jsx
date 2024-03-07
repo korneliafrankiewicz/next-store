@@ -1,19 +1,18 @@
 import React from 'react';
 import { Typography } from '@mui/material';
-import ButtonComponent from '../buttonComponent/ButtonComponent';
+import ButtonElement from '../Button/Button';
 import { css } from '@emotion/css';
 
-const header = css`
-  padding-left: 20%;
-  padding-top: 5%;
-`;
+const header = css``;
 
 const headerWrapper = css`
   display: flex;
+  justify-content: space-between;
 `;
 
 const subheader = {
-  paddingLeft: '200px',
+  display: 'block',
+  textAlign: 'right',
 };
 
 const Header = () => {
@@ -27,7 +26,7 @@ const Header = () => {
             Ręcznie robione
           </Typography>
         </div>
-        <ButtonComponent />
+        <ButtonElement />
       </div>
     </>
   );

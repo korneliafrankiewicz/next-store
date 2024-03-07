@@ -5,7 +5,7 @@ const loginIconStyles = (theme) => ({
   position: 'fixed',
   right: '20px',
   top: '20px',
-  color: `${theme.palette.white}`,
+  color: `${theme.palette.WHITE}`,
 });
 
 const Login = () => {

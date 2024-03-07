@@ -12,9 +12,10 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
-import useSWR from 'swr';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const menuIconStyles = (theme) => ({
+  color: `${theme.palette.WHITE}`,
+});
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
@@ -23,42 +24,33 @@ const Menu = () => {
     setOpen(newOpen);
   };
 
-  const {
-    data: tabs,
-    isLoading,
-    isError: error,
-  } = useSWR(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/tabs`, fetcher, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
-
-  if (error) {
-    return <p>Failed to fetch</p>;
-  }
-
-  if (isLoading) {
-    return <p>Loading tabs...</p>;
-  }
-
-  const icons = [
-    <ShoppingCartIcon />,
-    <WidgetsIcon />,
-    <MonetizationOnIcon />,
-    <MailIcon />,
+  const menuList = [
+    {
+      name: 'Sklep',
+      icon: <ShoppingCartIcon />,
+    },
+    {
+      name: 'Nasze realizacje',
+      icon: <WidgetsIcon />,
+    },
+    {
+      name: 'Wycena',
+      icon: <MonetizationOnIcon />,
+    },
+    {
+      name: 'Kontakt',
+      icon: <MailIcon />,
+    },
   ];
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
       <List>
-        {tabs?.data.map((tab, index) => (
-          <ListItem key={tab.attributes.Text} disablePadding>
+        {menuList?.map((tab, index) => (
+          <ListItem key={index} disablePadding>
             <ListItemButton>
-              <ListItemIcon>
-                {icons.map((icon, index) => {
-                  return icon[index];
-                })}
-              </ListItemIcon>
-              <ListItemText primary={tab.attributes.Text} />
+              <ListItemIcon>{tab.icon}</ListItemIcon>
+              <ListItemText primary={tab.name} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -69,7 +61,7 @@ const Menu = () => {
   return (
     <div>
       <Button onClick={toggleDrawer(true)}>
-        <MenuIcon fontSize='large' style={{ color: '#fff' }} />
+        <MenuIcon fontSize='large' sx={menuIconStyles} />
       </Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
