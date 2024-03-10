@@ -1,7 +1,5 @@
-import BlogList from '@/app/pages/api/BlogList';
 import Menu from '../../Menu/Menu';
 import Header from '../../Header/Header';
-import ProductList from '@/app/pages/api/ProductList';
 import Login from '../../Login/Login';
 import Box from '@mui/material/Box';
 import image from '../../../assets/wood_image.jpg';
@@ -33,8 +31,6 @@ export const Home = () => {
       <Login />
       <Paper sx={mainBox} elevation={3}>
         <Header />
-        {/* <BlogList />
-        <ProductList /> */}
         <ActionCards />
       </Paper>
     </Box>

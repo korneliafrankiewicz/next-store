@@ -5,62 +5,39 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { CardActionArea } from '@mui/material';
+import { loadProducts } from '../../../../lib/service';
 
-const cardWrapper = {
-  display: 'flex',
-  gap: '20px',
-  paddingTop: '30px',
-};
+const styles = {
+  cardWrapper: {
+    display: 'flex',
+    gap: '20px',
+    paddingTop: '30px',
+  },
 
-const card = {
-  minWidth: '300px',
+  card: {
+    minWidth: '300px',
+  },
 };
 
 const ActionCards = () => {
+  const { data: products } = loadProducts();
   return (
-    <Box sx={cardWrapper}>
-      <Card sx={card}>
-        <CardActionArea>
-          <CardMedia component='img' height='100' image='' alt='abc' />
-          <CardContent>
-            <Typography gutterBottom variant='h5' component='div'>
-              ABC
-            </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard.
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      <Card sx={card}>
-        <CardActionArea>
-          <CardMedia component='img' height='100' image='' alt='abc' />
-          <CardContent>
-            <Typography gutterBottom variant='h5' component='div'>
-              ABC
-            </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard.
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      <Card sx={card}>
-        <CardActionArea>
-          <CardMedia component='img' height='100' image='' alt='abc' />
-          <CardContent>
-            <Typography gutterBottom variant='h5' component='div'>
-              ABC
-            </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard.
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+    <Box sx={styles.cardWrapper}>
+      {products?.data.map((product, i) => (
+        <Card sx={styles.card} key={product.attributes.Title}>
+          <CardActionArea>
+            <CardMedia component='img' height='100' image='' alt='abc' />
+            <CardContent>
+              <Typography gutterBottom variant='h5' component='div'>
+                {product.attributes.Title}
+              </Typography>
+              <Typography variant='body2' color='text.secondary'>
+                {product.attributes.Description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      ))}
     </Box>
   );
 };

@@ -3,8 +3,6 @@ import { Typography } from '@mui/material';
 import ButtonElement from '../Button/Button';
 import { css } from '@emotion/css';
 
-const header = css``;
-
 const headerWrapper = css`
   display: flex;
   justify-content: space-between;
@@ -19,7 +17,7 @@ const Header = () => {
   return (
     <>
       <div className={headerWrapper}>
-        <div className={header}>
+        <div>
           <Typography variant='h1'>Stoliki</Typography>
           <Typography variant='h1'>dębowe</Typography>
           <Typography sx={subheader} variant='h5Italic'>
