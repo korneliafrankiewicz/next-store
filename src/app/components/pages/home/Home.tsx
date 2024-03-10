@@ -6,7 +6,7 @@ import image from '../../../assets/wood_image.jpg';
 import Paper from '@mui/material/Paper';
 import ActionCards from '../../ActionCards/ActionCards';
 
-const mainBox = (theme) => ({
+const mainBox = (theme: any) => ({
   backgroundColor: `${theme.palette.BEIGE}`,
   position: 'absolute',
   top: '50%',

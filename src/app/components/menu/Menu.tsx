@@ -13,14 +13,14 @@ import WidgetsIcon from '@mui/icons-material/Widgets';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const menuIconStyles = (theme) => ({
+const menuIconStyles = (theme: any) => ({
   color: `${theme.palette.WHITE}`,
 });
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
 
-  const toggleDrawer = (newOpen) => () => {
+  const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
