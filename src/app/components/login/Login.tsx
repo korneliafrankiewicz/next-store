@@ -1,5 +1,6 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
+import Link from 'next/link';
 
 const loginIconStyles = (theme: any) => ({
   position: 'fixed',
@@ -10,9 +11,11 @@ const loginIconStyles = (theme: any) => ({
 
 const Login = () => {
   return (
-    <Button>
-      <AccountCircleIcon sx={loginIconStyles} fontSize='large' />
-    </Button>
+    <Link href='/login'>
+      <Button>
+        <AccountCircleIcon sx={loginIconStyles} fontSize='large' />
+      </Button>
+    </Link>
   );
 };
 
