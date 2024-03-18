@@ -23,13 +23,20 @@ const ActionCards = () => {
   const { data: products, isLoading, isError } = loadProducts();
   if (isError) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
-  
+  console.log(products);
+
   return (
     <Box sx={styles.cardWrapper}>
       {products?.data.map((product, i) => (
         <Card sx={styles.card} key={product.attributes.Title}>
           <CardActionArea>
-            <CardMedia component='img' height='100' image='' alt='abc' />
+            <CardMedia
+              component='img'
+              height='100'
+              src={product.attributes.Image}
+              alt='abc'
+            />
+            {console.log(product.attributes.Image)}
             <CardContent>
               <Typography gutterBottom variant='h5' component='div'>
                 {product.attributes.Title}

@@ -4,8 +4,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import { login } from '../../../../lib/services/authService';
-import Link from 'next/link';
+import { register } from '../../../../lib/services/registerService';
 import Alert from '@mui/material/Alert';
 
 const styles = {
@@ -26,34 +25,42 @@ const styles = {
     padding: '30px',
     borderRadius: '12px',
   }),
-  loginButton: {
+  registerButton: {
     margin: '20px 0',
   },
 };
 
-const LoginForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await login(email, password);
-
-    if ('jwt' in response) {
-      console.log('Login success', response);
-    } else {
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    const response = await register(email, username, password);
+    console.log(response);
+    if ('message' in response) {
       setError(response.message);
+    } else {
+      setSuccess(true);
+      setError('');
     }
   };
 
   return (
     <Box sx={styles.formBox}>
       <Box sx={styles.header}>
-        <Typography variant='h3'>Login</Typography>
+        <Typography variant='h3'>Register user</Typography>
         <AccountCircleIcon sx={styles.loginIconStyles} fontSize='large' />
       </Box>
-      <Box component='form' onSubmit={handleSubmit} noValidate>
+      <Box component='form' onSubmit={handleRegister}>
         <TextField
           margin='normal'
           required
@@ -68,33 +75,49 @@ const LoginForm: React.FC = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
+          label='Username'
+          required
+          variant='outlined'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          fullWidth
+          margin='normal'
+        />
+        <TextField
           margin='normal'
           required
           fullWidth
           name='password'
-          label='Hasło'
+          label='Pasword'
           type='password'
           id='password'
           autoComplete='current-password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <TextField
+          margin='normal'
+          required
+          label='Confirm Password'
+          variant='outlined'
+          type='password'
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          fullWidth
+        />
         {error && <Alert severity='error'>{error}</Alert>}
+
         <Button
-          sx={styles.loginButton}
+          sx={styles.registerButton}
           type='submit'
           fullWidth
           variant='contained'>
-          Sign in
+          Register
         </Button>
-        <Link href='/register'>
-          <Button type='submit' fullWidth variant='contained'>
-            Sign up
-          </Button>
-        </Link>
+        {success && <Alert severity='success'>Registration successful!</Alert>}
       </Box>
     </Box>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

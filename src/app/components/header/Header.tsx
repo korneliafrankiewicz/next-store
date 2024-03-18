@@ -18,10 +18,10 @@ const Header = () => {
     <>
       <div className={headerWrapper}>
         <div>
-          <Typography variant='h1'>Stoliki</Typography>
-          <Typography variant='h1'>dębowe</Typography>
+          <Typography variant='h1'>Coffee</Typography>
+          <Typography variant='h1'>tables</Typography>
           <Typography sx={subheader} variant='h5Italic'>
-            Ręcznie robione
+            Handmade
           </Typography>
         </div>
         <ButtonElement />
