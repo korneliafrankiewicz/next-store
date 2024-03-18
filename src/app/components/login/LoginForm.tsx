@@ -4,6 +4,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
+import { login } from '../../../../lib/services/authService';
+import Alert from '@mui/material/Alert';
 
 const styles = {
   header: {
@@ -28,18 +30,20 @@ const styles = {
   },
 };
 
-interface LoginFormProps {
-  onSubmit: (email: string, password: string) => void;
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(email, password);
-    console.log('Login attempt from form with:', email, password);
+    const response = await login(email, password);
+
+    if ('jwt' in response) {
+      console.log('Login success', response);
+    } else {
+      setError(response.message);
+    }
   };
 
   return (
@@ -74,6 +78,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {error && <Alert severity='error'>{error}</Alert>}
         <Button
           sx={styles.loginButton}
           type='submit'

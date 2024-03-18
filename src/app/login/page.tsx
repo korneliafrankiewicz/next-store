@@ -2,16 +2,13 @@
 import { Container, ThemeProvider } from '@mui/material';
 import LoginForm from '../components/Login/LoginForm';
 import theme from '../../../lib/theme/theme';
+import type { NextPage } from 'next';
 
-const Login = () => {
-  const handleLogin = (email: string, password: string) => {
-    console.log('Login attempt:', email, password);
-    // TODO: implement login logic
-  };
+const Login: NextPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <LoginForm onSubmit={handleLogin} />
+        <LoginForm />
       </Container>
     </ThemeProvider>
   );
