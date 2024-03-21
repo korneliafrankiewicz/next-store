@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import TextField from '@mui/material/TextField';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import { Typography, TextField, Button, Box, Alert } from '@mui/material';
 import { login } from '../../../../lib/services/authService';
 import Link from 'next/link';
-import Alert from '@mui/material/Alert';
 
 const styles = {
   header: {

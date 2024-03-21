@@ -9,17 +9,20 @@ interface LoginResponse {
 
 interface LoginError {
   message: string;
-  errorType?: 'password' | 'email' | 'empty';
+  errorType?: 'password' | 'email' | 'empty' | null;
 }
 
 export const login = async (
   email: string,
   password: string
 ): Promise<LoginResponse | LoginError> => {
+
+  let ErrorType: 'password' | 'email' | 'empty' | null | undefined;
+
   if (!email.trim() && !password.trim()) {
     return {
       message: 'email and password fields cannot be empty',
-      errorType: 'empty',
+      errorType: ErrorType,
     };
   }
   try {
@@ -40,21 +43,21 @@ export const login = async (
     const data = await response.json();
 
     if (!response.ok) {
-      let errorType: 'password' | 'email' | 'empty' | undefined;
+      ErrorType;
 
       if (data.error.message.includes('password')) {
-        errorType = 'password';
+        ErrorType = 'password';
       } else if (
         data.error.message.includes('identifier') ||
         data.error.message.includes('email')
       ) {
-        errorType = 'email';
+        ErrorType = 'email';
       }
 
       throw new Error(
         JSON.stringify({
           message: data.error.message || 'Login error',
-          errorType,
+          errorType: ErrorType,
         })
       );
     }
@@ -62,17 +65,20 @@ export const login = async (
     return data;
   } catch (error: any) {
     let errorMessage: string = 'Login error';
-    let errorType: 'password' | 'email' | 'empty' | undefined;
+    ErrorType;
 
     try {
       const errorData = JSON.parse(error.message);
       errorMessage = errorData.message;
-      errorType = errorData.errorType;
+      ErrorType = errorData.errorType;
     } catch (parseError) {
-        console.error('Error parsing the error message:', parseError);
-        return { message: 'Error during login. Please try again.', errorType: undefined };
+      console.error(`'Error parsing the error message:' errorType: ${JSON.parse(error)}`);
+      return {
+        message: 'Error during login. Please try again.',
+        errorType: JSON.parse(error),
+      };
     }
 
-    return { message: errorMessage, errorType };
+    return { message: errorMessage, errorType: ErrorType};
   }
 };
