@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import TextField from '@mui/material/TextField';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import { Typography, Button, Box, TextField } from '@mui/material';
 import { register } from '../../../../lib/services/registerService';
 import Alert from '@mui/material/Alert';
 

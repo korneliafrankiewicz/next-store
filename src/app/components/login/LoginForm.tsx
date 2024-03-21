@@ -1,8 +1,13 @@
-import { useState } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Typography, TextField, Button, Box, Alert } from '@mui/material';
 import { login } from '../../../../lib/services/authService';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 const styles = {
   header: {
@@ -28,18 +33,17 @@ const styles = {
 };
 
 const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const response = await login(email, password);
-
-    if ('jwt' in response) {
-      console.log('Login success', response);
-    } else {
-      setError(response.message);
+  const onSubmit = async (data: FormData) => {
+    try {
+      await login(data.email, data.password);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -49,33 +53,18 @@ const LoginForm: React.FC = () => {
         <Typography variant='h3'>Login</Typography>
         <AccountCircleIcon sx={styles.loginIconStyles} fontSize='large' />
       </Box>
-      <Box component='form' onSubmit={handleSubmit} noValidate>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
+      <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
+        <input
           id='email'
-          label='Adres email'
-          name='email'
-          autoComplete='email'
-          autoFocus
           type='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register('email', { required: true })}
         />
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='password'
-          label='Hasło'
-          type='password'
+        <input
           id='password'
-          autoComplete='current-password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          type='password'
+          {...register('password', { required: true })}
         />
-        {error && <Alert severity='error'>{error}</Alert>}
+        {errors.email && <Alert severity='error'></Alert>}
         <Button
           sx={styles.loginButton}
           type='submit'
