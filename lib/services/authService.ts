@@ -1,3 +1,4 @@
+
 interface LoginResponse {
   jwt: string;
   user: {
@@ -6,7 +7,6 @@ interface LoginResponse {
     email: string;
   };
 }
-
 interface LoginError {
   message: string;
   errorType?: 'password' | 'email' | 'empty' | null;

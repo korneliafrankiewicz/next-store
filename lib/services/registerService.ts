@@ -11,7 +11,7 @@ interface RegisterResponse {
     message: string;
   }
   
-  export const register = async (
+  export const registerUser = async (
     email: string,
     username: string,
     password: string

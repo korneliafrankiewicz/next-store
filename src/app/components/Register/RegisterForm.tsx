@@ -1,8 +1,14 @@
-import { useState } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Typography, Button, Box, TextField } from '@mui/material';
-import { register } from '../../../../lib/services/registerService';
-import Alert from '@mui/material/Alert';
+import { Typography, Button, Box, TextField, Alert } from '@mui/material';
+import { registerUser } from '../../../../lib/services/registerService';
+import { useForm } from 'react-hook-form';
+
+type FormData = {
+  email: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const styles = {
   header: {
@@ -25,29 +31,27 @@ const styles = {
   registerButton: {
     margin: '20px 0',
   },
+  alert: {
+    marginBottom: '8px',
+  },
 };
 
 const RegisterForm: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>();
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-    const response = await register(email, username, password);
-    if ('message' in response) {
-      setError(response.message);
-    } else {
-      setSuccess(true);
-      setError('');
-    }
+  const onSubmit = async (data: FormData) => {
+    try {
+      await registerUser(data.email, data.username, data.password);
+    } catch (error: any) {}
+  };
+
+  const validatePassword = (value: string) => {
+    return value === watch('password') || `Passwords don't match`;
   };
 
   return (
@@ -56,52 +60,85 @@ const RegisterForm: React.FC = () => {
         <Typography variant='h3'>Register user</Typography>
         <AccountCircleIcon sx={styles.loginIconStyles} fontSize='large' />
       </Box>
-      <Box component='form' onSubmit={handleRegister}>
+      <Box component='form' onSubmit={handleSubmit(onSubmit)}>
         <TextField
           margin='normal'
-          required
           fullWidth
           id='email'
-          label='Adres email'
-          name='email'
-          autoComplete='email'
-          autoFocus
+          label='Adress email'
           type='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register('email', {
+            required: {
+              value: true,
+              message: 'Email is required',
+            },
+            pattern: {
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: 'Invalid email format',
+            },
+          })}
         />
         <TextField
           label='Username'
-          required
           variant='outlined'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          {...register('username', {
+            required: {
+              value: true,
+              message: 'username is required',
+            },
+          })}
           fullWidth
           margin='normal'
         />
         <TextField
           margin='normal'
-          required
           fullWidth
-          name='password'
           label='Pasword'
           type='password'
           id='password'
           autoComplete='current-password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register('password', {
+            required: {
+              value: true,
+              message: 'Password is required',
+            },
+          })}
         />
         <TextField
           margin='normal'
-          required
+          type='password'
           label='Confirm Password'
           variant='outlined'
-          type='password'
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          {...register('confirmPassword', {
+            required: {
+              value: true,
+              message: 'Confirming password is required',
+            },
+            validate: validatePassword,
+          })}
           fullWidth
         />
-        {error && <Alert severity='error'>{error}</Alert>}
+        {errors.email && (
+          <Alert sx={styles.alert} severity='error'>
+            {errors.email.message}
+          </Alert>
+        )}
+        {errors.username && (
+          <Alert sx={styles.alert} severity='error'>
+            {errors.username.message}
+          </Alert>
+        )}
+        {errors.password && (
+          <Alert sx={styles.alert} severity='error'>
+            {errors.password.message}
+          </Alert>
+        )}
+        {errors.confirmPassword && (
+          <Alert sx={styles.alert} severity='error'>
+            {errors.confirmPassword.message}
+          </Alert>
+        )}
 
         <Button
           sx={styles.registerButton}
@@ -110,7 +147,6 @@ const RegisterForm: React.FC = () => {
           variant='contained'>
           Register
         </Button>
-        {success && <Alert severity='success'>Registration successful!</Alert>}
       </Box>
     </Box>
   );

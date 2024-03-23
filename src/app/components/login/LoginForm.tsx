@@ -30,6 +30,9 @@ const styles = {
   loginButton: {
     margin: '20px 0',
   },
+  alert: {
+    marginBottom: '8px',
+  },
 };
 
 const LoginForm: React.FC = () => {
@@ -42,9 +45,7 @@ const LoginForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     try {
       await login(data.email, data.password);
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error: any) {}
   };
 
   return (
@@ -54,17 +55,45 @@ const LoginForm: React.FC = () => {
         <AccountCircleIcon sx={styles.loginIconStyles} fontSize='large' />
       </Box>
       <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
-        <input
+        <TextField
+          margin='normal'
+          label='Adress email'
+          fullWidth
           id='email'
           type='email'
-          {...register('email', { required: true })}
+          {...register('email', {
+            required: {
+              value: true,
+              message: 'Email is required',
+            },
+            pattern: {
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: 'Invalid email format',
+            },
+          })}
         />
-        <input
+        <TextField
+          margin='normal'
+          fullWidth
+          label='Pasword'
           id='password'
           type='password'
-          {...register('password', { required: true })}
+          {...register('password', {
+            required: {
+              value: true,
+              message: 'Password is required',
+            },
+          })}
         />
-        {errors.email && <Alert severity='error'></Alert>}
+        {errors.email && (
+          <Alert sx={styles.alert} severity='error'>
+            {errors.email?.message}
+          </Alert>
+        )}
+        {errors.password && (
+          <Alert severity='error'>{errors.password?.message}</Alert>
+        )}
         <Button
           sx={styles.loginButton}
           type='submit'
