@@ -1,8 +1,13 @@
 import useSWR from 'swr';
-import useSWRMutation  from 'swr/mutation';
-import { login } from './authService';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    const error = new Error('An error occurred while fetching the data.');
+    throw error;
+  }
+  return res.json();
+};
 
 export const useProducts = () => {
   const { data, error } = useSWR(
@@ -14,15 +19,3 @@ export const useProducts = () => {
     isLoading: !error && !data,
     isError: error,};
 };
-
-export const useMutate = () => {
-  const { trigger, isMutating, data, error } = useSWRMutation(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local`,
-  fetcher);
-  
-  return { 
-    data,
-    isLoading: !error && !data,
-    isError: error,
-    trigger
-  };
-}

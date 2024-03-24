@@ -1,7 +1,7 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Typography, Button, Box, TextField, Alert } from '@mui/material';
-import { registerUser } from '../../../../lib/services/registerService';
 import { useForm } from 'react-hook-form';
+import { useRegisterUser } from '../../../../lib/services/registerService';
 
 type FormData = {
   email: string;
@@ -38,16 +38,20 @@ const styles = {
 
 const RegisterForm: React.FC = () => {
   const {
-    register,
+    register: registerForm,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<FormData>();
 
+  const { trigger, isLoading, isError } = useRegisterUser();
+
   const onSubmit = async (data: FormData) => {
     try {
-      await registerUser(data.email, data.username, data.password);
-    } catch (error: any) {}
+      await trigger(data);
+    } catch (error) {
+      console.error('An error occurred during registration:', error);
+    }
   };
 
   const validatePassword = (value: string) => {
@@ -60,14 +64,14 @@ const RegisterForm: React.FC = () => {
         <Typography variant='h3'>Register user</Typography>
         <AccountCircleIcon sx={styles.loginIconStyles} fontSize='large' />
       </Box>
-      <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+      <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField
           margin='normal'
           fullWidth
           id='email'
           label='Adress email'
           type='email'
-          {...register('email', {
+          {...registerForm('email', {
             required: {
               value: true,
               message: 'Email is required',
@@ -82,7 +86,7 @@ const RegisterForm: React.FC = () => {
         <TextField
           label='Username'
           variant='outlined'
-          {...register('username', {
+          {...registerForm('username', {
             required: {
               value: true,
               message: 'username is required',
@@ -98,7 +102,7 @@ const RegisterForm: React.FC = () => {
           type='password'
           id='password'
           autoComplete='current-password'
-          {...register('password', {
+          {...registerForm('password', {
             required: {
               value: true,
               message: 'Password is required',
@@ -110,7 +114,7 @@ const RegisterForm: React.FC = () => {
           type='password'
           label='Confirm Password'
           variant='outlined'
-          {...register('confirmPassword', {
+          {...registerForm('confirmPassword', {
             required: {
               value: true,
               message: 'Confirming password is required',
@@ -147,6 +151,8 @@ const RegisterForm: React.FC = () => {
           variant='contained'>
           Register
         </Button>
+        {/* {isError && <p>Error: {isError.message}</p>}
+        {data && <p>Registration successful!</p>} */}
       </Box>
     </Box>
   );

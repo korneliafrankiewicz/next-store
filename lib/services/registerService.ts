@@ -1,45 +1,51 @@
+import useSWRMutation from 'swr/mutation';
+
+interface RegisterData {
+  username: string;
+  email: string;
+  password: string;
+}
 interface RegisterResponse {
-    jwt: string;
-    user: {
-      id: number;
-      username: string;
-      email: string;
-    };
-  }
-  
-  interface RegisterError {
-    message: string;
-  }
-  
-  export const registerUser = async (
-    email: string,
-    username: string,
-    password: string
-  ): Promise<RegisterResponse | RegisterError> => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local/register`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username,
-            email,
-            password,
-          }),
-        }
-      );
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration error');
-      }
-  
-      return data;
-    } catch (error: any) {
-      return { message: error.message || 'Registration error' };
-    }
+  user: {
+    username: string;
+    email: string;
   };
+}
+
+interface RegisterError {
+  message: string;
+}
+
+const registerUser = async (url: string,
+  data: RegisterData
+): Promise<RegisterResponse | RegisterError> => {
+  const res = await fetch(
+    url,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error('An error occurred while registering the user.');
+  }
+  return res.json();
+};
+
+export const useRegisterUser = () => {
+  const { data, error, trigger, isMutating } = useSWRMutation(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local/register`,
+    registerUser
+  );
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error ? { message: error.message } : null,
+    trigger
+  };
+};
