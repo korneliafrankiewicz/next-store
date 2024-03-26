@@ -3,9 +3,6 @@ import Button from '@mui/material/Button';
 import Link from 'next/link';
 
 const loginIconStyles = (theme: any) => ({
-  position: 'fixed',
-  right: '20px',
-  top: '20px',
   color: `${theme.palette.WHITE}`,
 });
 

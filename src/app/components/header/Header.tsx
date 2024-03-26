@@ -1,32 +1,35 @@
 import React from 'react';
-import { Typography } from '@mui/material';
-import ButtonElement from '../Button/Button';
-import { css } from '@emotion/css';
+import Menu from '../Menu/Menu';
+import Login from '../Login/Login';
+import Box from '@mui/material/Box';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-const headerWrapper = css`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const subheader = {
-  display: 'block',
-  textAlign: 'right',
+const styles = {
+  header: (theme: any) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingTop: '20px',
+  }),
+  icon: (theme: any) => ({
+    color: `${theme.palette.WHITE}`,
+    paddingLeft: '20px',
+  }),
+  icons: {
+    alignItems: 'center',
+    display: 'flex',
+    paddingRight: '20px',
+  },
 };
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
-    <>
-      <div className={headerWrapper}>
-        <div>
-          <Typography variant='h1'>Coffee</Typography>
-          <Typography variant='h1'>tables</Typography>
-          <Typography sx={subheader} variant='h5Italic'>
-            Handmade
-          </Typography>
-        </div>
-        <ButtonElement />
-      </div>
-    </>
+    <Box sx={styles.header}>
+      <Menu />
+      <Box sx={styles.icons}>
+        <Login />
+        <ShoppingCartIcon sx={styles.icon} fontSize='large' />
+      </Box>
+    </Box>
   );
 };
 
