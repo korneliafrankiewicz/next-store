@@ -1,9 +1,9 @@
 'use client';
-import { Container, ThemeProvider } from '@mui/material';
+import { Box, ThemeProvider } from '@mui/material';
 import theme from '../../../lib/theme/theme';
 import type { NextPage } from 'next';
 import ProductList from '../components/ProductList/ProductList';
-import Header from '../components/Header/Header';
+import BaseLayout from '../components/BaseLayout/BaseLayout';
 
 const styles = {
   main: (theme: any) => ({
@@ -15,10 +15,11 @@ const styles = {
 const Store: NextPage = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Container sx={styles.main}>
-        <Header />
-        <ProductList />
-      </Container>
+      <Box sx={styles.main}>
+        <BaseLayout>
+          <ProductList />
+        </BaseLayout>
+      </Box>
     </ThemeProvider>
   );
 };

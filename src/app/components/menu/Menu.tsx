@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import {Box, Drawer, Button, List, ListItem, ListItemButton, ListItemIcon,ListItemText} from '@mui/material';
+import {
+  Box,
+  Drawer,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import WidgetsIcon from '@mui/icons-material/Widgets';
@@ -19,19 +28,19 @@ const Menu = () => {
 
   const menuList = [
     {
-      name: 'Sklep',
+      name: 'Shop',
       icon: <ShoppingCartIcon />,
     },
     {
-      name: 'Nasze realizacje',
+      name: 'Our projects',
       icon: <WidgetsIcon />,
     },
     {
-      name: 'Wycena',
+      name: 'Individual pricing',
       icon: <MonetizationOnIcon />,
     },
     {
-      name: 'Kontakt',
+      name: 'Contact',
       icon: <MailIcon />,
     },
   ];

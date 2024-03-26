@@ -1,7 +1,7 @@
-import Header from '../Header/Header';
 import HomeHeader from './HomeHeader';
 import image from '../../assets/wood_image.jpg';
 import ActionCards from '../ActionCards/ActionCards';
+import BaseLayout from '../BaseLayout/BaseLayout';
 import { Paper, Box } from '@mui/material';
 
 const mainBox = (theme: any) => ({
@@ -25,11 +25,12 @@ const wrapper = {
 export const Home = () => {
   return (
     <Box sx={wrapper}>
-      <Header />
-      <Paper sx={mainBox} elevation={3}>
-        <HomeHeader />
-        <ActionCards />
-      </Paper>
+      <BaseLayout>
+        <Paper sx={mainBox} elevation={3}>
+          <HomeHeader />
+          <ActionCards />
+        </Paper>
+      </BaseLayout>
     </Box>
   );
 };
