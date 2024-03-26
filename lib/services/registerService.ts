@@ -39,7 +39,7 @@ const registerUser = async (url: string,
 export const useRegisterUser = () => {
   const { data, error, trigger, isMutating } = useSWRMutation(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local/register`,
-    registerUser
+    (url, { arg } : { arg: RegisterData }) => registerUser(url, arg)
   );
 
   return {

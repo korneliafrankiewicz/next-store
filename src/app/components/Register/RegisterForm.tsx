@@ -44,7 +44,7 @@ const RegisterForm: React.FC = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const { trigger, isLoading, isError } = useRegisterUser();
+  const { data, trigger, isLoading, isError } = useRegisterUser();
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -151,8 +151,16 @@ const RegisterForm: React.FC = () => {
           variant='contained'>
           Register
         </Button>
-        {/* {isError && <p>Error: {isError.message}</p>}
-        {data && <p>Registration successful!</p>} */}
+        {isError && (
+          <Alert sx={styles.alert} severity='error'>
+            {isError.message}
+          </Alert>
+        )}
+        {data && (
+          <Alert sx={styles.alert} severity='success'>
+            Registration successful!
+          </Alert>
+        )}
       </Box>
     </Box>
   );
