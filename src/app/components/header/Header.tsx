@@ -3,6 +3,8 @@ import Menu from '../Menu/Menu';
 import Login from '../Login/Login';
 import Box from '@mui/material/Box';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Link from 'next/link';
+import { Button } from '@mui/material';
 
 const styles = {
   header: (theme: any) => ({
@@ -27,7 +29,11 @@ const Header: React.FC = () => {
       <Menu />
       <Box sx={styles.icons}>
         <Login />
-        <ShoppingCartIcon sx={styles.icon} fontSize='large' />
+        <Link href='/cart'>
+          <Button>
+            <ShoppingCartIcon sx={styles.icon} fontSize='large' />
+          </Button>
+        </Link>
       </Box>
     </Box>
   );

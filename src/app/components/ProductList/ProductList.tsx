@@ -7,6 +7,7 @@ import {
   Box,
 } from '@mui/material';
 import { AddShoppingCart } from '@mui/icons-material';
+import { useState } from 'react';
 import { useProducts } from '../../../../lib/services/service';
 
 type Product = {
@@ -50,13 +51,19 @@ const styles = {
 
 const ProductList = () => {
   const { data: products, isLoading, isError } = useProducts();
+  const [cart, setCart] = useState<Product[]>([]);
+
+  const addToCart = (product: Product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
+
   if (isError) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <Box sx={styles.productsWrapper}>
-      {products.data.map((product: Product) => (
-        <ListItem sx={styles.productItem} key={product.attributes.Title}>
+      {products.data.map((product: Product, index: number) => (
+        <ListItem sx={styles.productItem} key={index}>
           <ListItemAvatar>
             <Avatar
               sx={styles.image}
@@ -72,7 +79,7 @@ const ProductList = () => {
             sx={styles.price}
             primary={`${product.attributes.Price}`}
           />
-          <IconButton>
+          <IconButton onClick={() => addToCart(product)}>
             <AddShoppingCart />
           </IconButton>
         </ListItem>
