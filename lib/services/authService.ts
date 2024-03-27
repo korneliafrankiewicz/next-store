@@ -1,3 +1,9 @@
+import useSWRMutation from 'swr/mutation';
+
+interface LoginData { 
+  identifier: string;
+  password: string;
+}
 
 interface LoginResponse {
   jwt: string;
@@ -12,14 +18,13 @@ interface LoginError {
   errorType?: 'password' | 'email' | 'empty' | null;
 }
 
-export const login = async (
-  email: string,
-  password: string
+ const login = async (url: string,
+  data: LoginData
 ): Promise<LoginResponse | LoginError> => {
 
   let ErrorType: 'password' | 'email' | 'empty' | null | undefined;
 
-  if (!email.trim() && !password.trim()) {
+  if (!data.identifier.trim() && !data.password.trim()) {
     return {
       message: 'email and password fields cannot be empty',
       errorType: ErrorType,
@@ -27,23 +32,19 @@ export const login = async (
   }
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local`,
+      url,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          identifier: email,
-          password: password,
-        }),
+        body: JSON.stringify(data)
       }
     );
 
-    const data = await response.json();
-
     if (!response.ok) {
       ErrorType;
+      const data = await response.json();
 
       if (data.error.message.includes('password')) {
         ErrorType = 'password';
@@ -62,7 +63,8 @@ export const login = async (
       );
     }
 
-    return data;
+    return response.json();
+
   } catch (error: any) {
     let errorMessage: string = 'Login error';
     ErrorType;
@@ -82,3 +84,17 @@ export const login = async (
     return { message: errorMessage, errorType: ErrorType};
   }
 };
+
+export const useLogin = () => {
+  const { data, error, trigger, isMutating } = useSWRMutation(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local`,
+    (url, { arg} : {arg: LoginData}) => login(url, arg)
+  );
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error ? { message: error.message } : null,
+    trigger,
+  };
+}

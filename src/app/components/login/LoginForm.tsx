@@ -1,12 +1,13 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Typography, TextField, Button, Box, Alert } from '@mui/material';
-import { login } from '../../../../lib/services/authService';
+import { useLogin } from '../../../../lib/services/authService';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 type FormData = {
-  email: string;
+  identifier: string;
   password: string;
+  message: string;
 };
 
 const styles = {
@@ -36,6 +37,8 @@ const styles = {
 };
 
 const LoginForm: React.FC = () => {
+  const { data, trigger, isLoading, isError } = useLogin();
+
   const {
     register,
     handleSubmit,
@@ -44,8 +47,10 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await login(data.email, data.password);
-    } catch (error: any) {}
+      await trigger(data);
+    } catch (error) {
+      console.error('An error occurred during logging:', error);
+    }
   };
 
   return (
@@ -61,7 +66,7 @@ const LoginForm: React.FC = () => {
           fullWidth
           id='email'
           type='email'
-          {...register('email', {
+          {...register('identifier', {
             required: {
               value: true,
               message: 'Email is required',
@@ -86,9 +91,9 @@ const LoginForm: React.FC = () => {
             },
           })}
         />
-        {errors.email && (
+        {errors.identifier && (
           <Alert sx={styles.alert} severity='error'>
-            {errors.email?.message}
+            {errors.identifier?.message}
           </Alert>
         )}
         {errors.password && (
@@ -106,6 +111,11 @@ const LoginForm: React.FC = () => {
             Sign up
           </Button>
         </Link>
+        {isError && (
+          <Alert sx={styles.alert} severity='error'>
+            {data.message}
+          </Alert>
+        )}
       </Box>
     </Box>
   );
