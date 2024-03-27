@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { CardActionArea } from '@mui/material';
-import { loadProducts } from '../../../../lib/service';
+import { useProducts } from '../../../../lib/services/service';
 
 const styles = {
   cardWrapper: {
@@ -20,13 +20,21 @@ const styles = {
 };
 
 const ActionCards = () => {
-  const { data: products } = loadProducts();
+  const { data: products, isLoading, isError } = useProducts();
+  if (isError) return <div>Failed to load</div>;
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <Box sx={styles.cardWrapper}>
-      {products?.data.map((product, i) => (
+      {products?.data.map((product) => (
         <Card sx={styles.card} key={product.attributes.Title}>
           <CardActionArea>
-            <CardMedia component='img' height='100' image='' alt='abc' />
+            <CardMedia
+              component='img'
+              height='100'
+              src={product.attributes.Image}
+              alt='abc'
+            />
             <CardContent>
               <Typography gutterBottom variant='h5' component='div'>
                 {product.attributes.Title}

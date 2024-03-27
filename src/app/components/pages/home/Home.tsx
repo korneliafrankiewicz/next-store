@@ -1,10 +1,9 @@
 import Menu from '../../Menu/Menu';
 import Header from '../../Header/Header';
 import Login from '../../Login/Login';
-import Box from '@mui/material/Box';
 import image from '../../../assets/wood_image.jpg';
-import Paper from '@mui/material/Paper';
 import ActionCards from '../../ActionCards/ActionCards';
+import { Paper, Box } from '@mui/material';
 
 const mainBox = (theme: any) => ({
   backgroundColor: `${theme.palette.BEIGE}`,

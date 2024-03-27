@@ -18,7 +18,7 @@ const ButtonElement = () => {
   return (
     <Button sx={styles.button} variant='contained'>
       <ShoppingCartIcon fontSize='large' sx={styles.icon} />
-      Sklep
+      Go to shop
     </Button>
   );
 };
