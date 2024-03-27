@@ -1,10 +1,12 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { CardActionArea } from '@mui/material';
+import {
+  CardActionArea,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Box,
+} from '@mui/material';
 import { useProducts } from '../../../../lib/services/service';
 
 const styles = {
@@ -19,6 +21,14 @@ const styles = {
   },
 };
 
+type Product = {
+  attributes: {
+    Title: string;
+    Image: string;
+    Description: string;
+  };
+};
+
 const ActionCards = () => {
   const { data: products, isLoading, isError } = useProducts();
   if (isError) return <div>Failed to load</div>;
@@ -26,7 +36,7 @@ const ActionCards = () => {
 
   return (
     <Box sx={styles.cardWrapper}>
-      {products?.data.map((product) => (
+      {products?.data.slice(0, 3).map((product: Product) => (
         <Card sx={styles.card} key={product.attributes.Title}>
           <CardActionArea>
             <CardMedia

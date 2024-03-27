@@ -1,7 +1,7 @@
 'use client';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../lib/theme/theme';
-import Home from './components/pages/home/Home';
+import Home from './components/Home/Home';
 
 export const App = () => {
   return (
