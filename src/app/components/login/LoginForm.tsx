@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 type FormData = {
   identifier: string;
   password: string;
+  message: string;
 };
 
 const styles = {
@@ -47,7 +48,7 @@ const LoginForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     try {
       await trigger(data);
-    } catch (error: any) {
+    } catch (error) {
       console.error('An error occurred during logging:', error);
     }
   };
@@ -112,7 +113,7 @@ const LoginForm: React.FC = () => {
         </Link>
         {isError && (
           <Alert sx={styles.alert} severity='error'>
-            {isError.message}
+            {data.message}
           </Alert>
         )}
       </Box>
