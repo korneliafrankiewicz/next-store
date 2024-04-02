@@ -1,14 +1,38 @@
 import React, { useState } from 'react';
-import {Box, Drawer, Button, List, ListItem, ListItemButton, ListItemIcon,ListItemText} from '@mui/material';
+import {
+  Box,
+  Drawer,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import Link from 'next/link';
+import { css } from '@emotion/css';
 
-const menuIconStyles = (theme: any) => ({
-  color: `${theme.palette.WHITE}`,
-});
+const styles = {
+  menuIconStyles: (theme: any) => ({
+    color: `${theme.palette.WHITE}`,
+  }),
+  icon: (theme: any) => ({
+    color: `${theme.palette.DARK_BROWN}`,
+  }),
+  text: (theme: any) => ({
+    color: `${theme.palette.DARK_BROWN}`,
+    textDecoration: 'none',
+  }),
+};
+
+const linkStyles = css`
+  text-decoration: none;
+`;
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
@@ -19,20 +43,24 @@ const Menu = () => {
 
   const menuList = [
     {
-      name: 'Sklep',
+      name: 'Shop',
       icon: <ShoppingCartIcon />,
+      link: '/store',
     },
     {
-      name: 'Nasze realizacje',
+      name: 'Our projects',
       icon: <WidgetsIcon />,
+      link: '/our-projects',
     },
     {
-      name: 'Wycena',
+      name: 'Individual pricing',
       icon: <MonetizationOnIcon />,
+      link: '/pricing',
     },
     {
-      name: 'Kontakt',
+      name: 'Contact',
       icon: <MailIcon />,
+      link: '/contact',
     },
   ];
 
@@ -40,12 +68,14 @@ const Menu = () => {
     <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
       <List>
         {menuList?.map((tab, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{tab.icon}</ListItemIcon>
-              <ListItemText primary={tab.name} />
-            </ListItemButton>
-          </ListItem>
+          <Link href={tab.link} className={linkStyles} key={index}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon sx={styles.icon}>{tab.icon}</ListItemIcon>
+                <ListItemText sx={styles.text} primary={tab.name} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Box>
@@ -54,7 +84,7 @@ const Menu = () => {
   return (
     <div>
       <Button onClick={toggleDrawer(true)}>
-        <MenuIcon fontSize='large' sx={menuIconStyles} />
+        <MenuIcon fontSize='large' sx={styles.menuIconStyles} />
       </Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
