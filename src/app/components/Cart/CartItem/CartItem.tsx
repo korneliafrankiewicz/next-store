@@ -1,13 +1,10 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
+type Product = { id: number; title: string; price: number; quantity: number };
+
 interface CartItemProps {
-  product: {
-    id: number;
-    title: string;
-    price: number;
-    quantity: number;
-  };
+  product: Product;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {

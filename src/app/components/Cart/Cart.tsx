@@ -16,8 +16,8 @@ const Cart: React.FC = () => {
 
   return (
     <Box>
-      {productsMock.map((product, index) => (
-        <CartItem key={index} product={product} />
+      {productsMock.map((product) => (
+        <CartItem key={product.id} product={product} />
       ))}
     </Box>
   );
