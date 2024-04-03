@@ -4,7 +4,6 @@ import React from 'react';
 const styles = {
   footer: (theme: any) => ({
     display: 'flex',
-    position: 'fixed',
     bottom: 0,
     left: 0,
     width: '100%',

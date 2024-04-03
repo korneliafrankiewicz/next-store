@@ -45,7 +45,7 @@ const Menu = () => {
     {
       name: 'Shop',
       icon: <ShoppingCartIcon />,
-      link: '/store',
+      link: '/shop',
     },
     {
       name: 'Our projects',

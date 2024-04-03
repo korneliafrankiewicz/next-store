@@ -12,7 +12,7 @@ const styles = {
   }),
 };
 
-const Store: NextPage = () => {
+const Shop: NextPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={styles.main}>
@@ -24,4 +24,4 @@ const Store: NextPage = () => {
   );
 };
 
-export default Store;
+export default Shop;

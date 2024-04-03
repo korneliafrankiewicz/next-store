@@ -1,23 +1,8 @@
-import {
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  IconButton,
-  Box,
-} from '@mui/material';
-import { AddShoppingCart } from '@mui/icons-material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import { useProducts } from '../../../../lib/services/service';
-
-type Product = {
-  attributes: {
-    Title: string;
-    Image: string;
-    Description: string;
-    Price: string;
-  };
-};
+import { Product } from '@/app/models/product';
+import ProductItem from '../ProductIem/ProductItem';
 
 const styles = {
   productsWrapper: (theme: any) => ({
@@ -26,32 +11,12 @@ const styles = {
     gap: '20px',
     paddingTop: '30px',
   }),
-  productItem: (theme: any) => ({
-    borderRadius: '12px',
-    backgroundColor: `${theme.palette.WHITE}`,
-  }),
-  productContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingLeft: '30px',
-    maxWidth: '60%',
-    width: '60%',
-  },
-
-  price: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-
-  image: {
-    width: '80px',
-    height: '80px',
-  },
 };
 
 const ProductList = () => {
   const { data: products, isLoading, isError } = useProducts();
   const [cart, setCart] = useState<Product[]>([]);
+  console.log(cart);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => [...prevCart, product]);
@@ -63,26 +28,7 @@ const ProductList = () => {
   return (
     <Box sx={styles.productsWrapper}>
       {products.data.map((product: Product, index: number) => (
-        <ListItem sx={styles.productItem} key={index}>
-          <ListItemAvatar>
-            <Avatar
-              sx={styles.image}
-              src={product.attributes.Image}
-              alt={product.attributes.Title}
-            />
-          </ListItemAvatar>
-          <Box sx={styles.productContent}>
-            <ListItemText primary={product.attributes.Title} />
-            <ListItemText secondary={product.attributes.Description} />
-          </Box>
-          <ListItemText
-            sx={styles.price}
-            primary={`${product.attributes.Price}`}
-          />
-          <IconButton onClick={() => addToCart(product)}>
-            <AddShoppingCart />
-          </IconButton>
-        </ListItem>
+        <ProductItem key={index} product={product} addToCart={addToCart} />
       ))}
     </Box>
   );
