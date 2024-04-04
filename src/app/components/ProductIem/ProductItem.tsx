@@ -33,22 +33,17 @@ const styles = {
     width: '80px',
     height: '80px',
   },
+  icon: (theme: any) => ({
+    color: `${theme.palette.DARK_BROWN}`,
+  }),
 };
 
-type ProductProps = {
-  product: Product;
-};
-
-const ProductItem: React.FC<ProductProps> = ({ product }) => {
+const ProductItem = ({ product }: { product: Product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const items = useCartStore((state) => state.items);
   const total = useCartStore((state) => state.total);
   const quantity = useCartStore((state) => state.items.length);
-  console.log(total);
-  console.log(items);
-  console.log(quantity);
 
-  // const {addToCart} = useCartStore();
   return (
     <ListItem sx={styles.productItem}>
       <ListItemAvatar>
@@ -67,7 +62,7 @@ const ProductItem: React.FC<ProductProps> = ({ product }) => {
         primary={`${product.attributes.Price.toString()} zł`}
       />
       <IconButton onClick={() => addToCart(product)}>
-        <AddShoppingCart />
+        <AddShoppingCart sx={styles.icon} />
       </IconButton>
     </ListItem>
   );

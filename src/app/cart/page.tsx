@@ -7,7 +7,7 @@ import Cart from '../components/Cart/Cart';
 
 const styles = {
   main: (theme: any) => ({
-    backgroundColor: `${theme.palette.LIGHT_CREME}`,
+    backgroundColor: `${theme.palette.BEIGE}`,
     height: '100%',
   }),
 };

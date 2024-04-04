@@ -38,10 +38,22 @@ export const useCartStore = create<CartStore>((set) => ({
     if (!itemToRemove) {
       return state;
     }
-    return {
-      ...state,
-      items: state.items.filter(item => item.attributes.Title !== productTitle),
-      total: state.total - itemToRemove.attributes.Price * itemToRemove.quantity,
-    };
+    if (itemToRemove.quantity > 1) {
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.attributes.Title === productTitle
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        ),
+        total: state.total - itemToRemove.attributes.Price,
+      };
+    } else {
+      return {
+        ...state,
+        items: state.items.filter(item => item.attributes.Title !== productTitle),
+        total: state.total - itemToRemove.attributes.Price,
+      };
+    }
   }),
 }));

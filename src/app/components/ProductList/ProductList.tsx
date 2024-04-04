@@ -1,32 +1,35 @@
-import { Box } from '@mui/material';
-import { useState } from 'react';
+import { Box, Typography } from '@mui/material';
 import { useProducts } from '../../../../lib/services/service';
 import { Product } from '@/app/models/product';
 import ProductItem from '../ProductIem/ProductItem';
 import { useCartStore } from '../../../../lib/store/cart';
+import Spinner from '../Spinner/Spinner';
 
 const styles = {
   productsWrapper: (theme: any) => ({
     display: 'flex',
-    flexDirection: 'column', 
+    flexDirection: 'column',
     gap: '20px',
     paddingTop: '30px',
   }),
+  text: {
+    display: 'flex',
+    justifyContent: 'end',
+  },
 };
 
 const ProductList = () => {
   const { data: products, isLoading, isError } = useProducts();
-  const addToCart = useCartStore((state) => state.addToCart);
-  const items = useCartStore((state) => state.items);
   const total = useCartStore((state) => state.total);
-  const quantity = useCartStore((state) => state.items.length);
 
-  if (isError) return <div>Failed to load</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <Typography variant='body3'>Failed to load</Typography>;
+  if (isLoading) return <Spinner />;
 
   return (
     <Box sx={styles.productsWrapper}>
-      <h1>Cart: {quantity}</h1>
+      <Typography sx={styles.text} variant='body3'>
+        Total: {total} zł
+      </Typography>
       {products.data.map((product: Product, index: number) => (
         <ProductItem key={index} product={product} />
       ))}

@@ -18,7 +18,7 @@ import Link from 'next/link';
 import { css } from '@emotion/css';
 
 const styles = {
-  menuIconStyles: (theme: any) => ({
+  menuIcon: (theme: any) => ({
     color: `${theme.palette.WHITE}`,
   }),
   icon: (theme: any) => ({
@@ -84,7 +84,7 @@ const Menu = () => {
   return (
     <div>
       <Button onClick={toggleDrawer(true)}>
-        <MenuIcon fontSize='large' sx={styles.menuIconStyles} />
+        <MenuIcon fontSize='large' sx={styles.menuIcon} />
       </Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
