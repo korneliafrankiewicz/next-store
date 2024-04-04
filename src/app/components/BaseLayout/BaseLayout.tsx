@@ -9,14 +9,18 @@ interface BaseLayoutProps {
   children: React.ReactNode;
 }
 
+const containerStyles = {
+  height: '100%',
+};
+
 const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Container>
+      <Container sx={containerStyles}>
         <Header />
         {children}
-        <Footer />
       </Container>
+      <Footer />
     </ThemeProvider>
   );
 };

@@ -9,6 +9,7 @@ import {
   ListItemText,
   IconButton,
 } from '@mui/material';
+import { useCartStore } from '../../../../lib/store/cart';
 
 const styles = {
   productItem: (theme: any) => ({
@@ -36,10 +37,18 @@ const styles = {
 
 type ProductProps = {
   product: Product;
-  addToCart: (product: Product) => void;
 };
 
-const ProductItem: React.FC<ProductProps> = ({ product, addToCart }) => {
+const ProductItem: React.FC<ProductProps> = ({ product }) => {
+  const addToCart = useCartStore((state) => state.addToCart);
+  const items = useCartStore((state) => state.items);
+  const total = useCartStore((state) => state.total);
+  const quantity = useCartStore((state) => state.items.length);
+  console.log(total);
+  console.log(items);
+  console.log(quantity);
+
+  // const {addToCart} = useCartStore();
   return (
     <ListItem sx={styles.productItem}>
       <ListItemAvatar>
@@ -53,7 +62,10 @@ const ProductItem: React.FC<ProductProps> = ({ product, addToCart }) => {
         <ListItemText primary={product.attributes.Title} />
         <ListItemText secondary={product.attributes.Description} />
       </Box>
-      <ListItemText sx={styles.price} primary={`${product.attributes.Price}`} />
+      <ListItemText
+        sx={styles.price}
+        primary={`${product.attributes.Price.toString()} zł`}
+      />
       <IconButton onClick={() => addToCart(product)}>
         <AddShoppingCart />
       </IconButton>

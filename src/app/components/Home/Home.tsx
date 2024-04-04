@@ -18,7 +18,7 @@ const wrapper = {
   position: 'relative',
   width: '100vw',
   height: '100vh',
-  overflow: 'hidden',
+  overflowX: 'hidden',
   backgroundImage: `url(${image.src})`,
 };
 

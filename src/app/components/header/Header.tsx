@@ -14,7 +14,6 @@ const styles = {
   }),
   icon: (theme: any) => ({
     color: `${theme.palette.WHITE}`,
-    paddingLeft: '20px',
   }),
   icons: {
     alignItems: 'center',

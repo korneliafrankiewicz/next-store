@@ -7,7 +7,7 @@ import BaseLayout from '../components/BaseLayout/BaseLayout';
 
 const styles = {
   main: (theme: any) => ({
-    backgroundColor: `${theme.palette.LIGHT_CREME}`,
+    backgroundColor: `${theme.palette.BEIGE}`,
     height: '100%',
   }),
 };

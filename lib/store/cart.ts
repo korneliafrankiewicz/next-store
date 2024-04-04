@@ -1,4 +1,4 @@
-import create from 'zustand';
+import {create} from 'zustand';
 import { Product } from '@/app/models/product';
 
 type CartItem = Product & { quantity: number };

@@ -8,6 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import { useProducts } from '../../../../lib/services/service';
+import { Product } from '@/app/models/product';
 
 const styles = {
   cardWrapper: {
@@ -19,14 +20,6 @@ const styles = {
   card: {
     minWidth: '300px',
   },
-};
-
-type Product = {
-  attributes: {
-    Title: string;
-    Image: string;
-    Description: string;
-  };
 };
 
 const ActionCards = () => {
