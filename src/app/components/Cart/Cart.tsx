@@ -1,18 +1,14 @@
 import React from 'react';
 import {
-  Avatar,
   Box,
-  IconButton,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Typography,
 } from '@mui/material/';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { useCartStore } from '../../../../lib/store/cart';
+import { useCartStore } from '../../store/cart';
+import CartItem from '../CartItem/CartItem';
+import { MyTheme } from '@/app/models/theme';
 
 const styles = {
-  productsWrapper: (theme: any) => ({
+  productsWrapper: (theme: MyTheme) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: '20px',
@@ -49,34 +45,22 @@ const styles = {
 };
 
 const Cart = () => {
-  const total = useCartStore((state) => state.total);
-  const items = useCartStore((state) => state.items);
-  const remove = useCartStore((state) => state.removeFromCart);
+  const { total, items, removeFromCart } = useCartStore();
 
   return (
     <Box sx={styles.productsWrapper}>
-      {items.map((product) => (
-        <ListItem sx={styles.productItem}>
-          <ListItemAvatar>
-            <Avatar
-              sx={styles.image}
-              src={product.attributes.Image}
-              alt={product.attributes.Title}
-            />
-          </ListItemAvatar>
-          <Box sx={styles.productContent}>
-            <ListItemText primary={product.attributes.Title} />
-            <ListItemText secondary={product.attributes.Description} />
-          </Box>
-          <ListItemText
-            sx={styles.price}
-            primary={`${product.attributes.Price.toString()} zł`}
-          />
-          <ListItemText primary={`${product.quantity}`} />
-          <IconButton onClick={() => remove(product.attributes.Title)}>
-            <DeleteIcon sx={styles.icon} />
-          </IconButton>
-        </ListItem>
+      {items.map((item) => (
+        <CartItem
+          key={item.attributes.Title}
+          product={{
+            attributes: {
+              Title: item.attributes.Title,
+              Image: item.attributes.Image,
+              Description: item.attributes.Description,
+              Price: item.attributes.Price,
+            },
+          }}
+        />
       ))}
       <Typography sx={styles.text} variant='body3'>
         Total: {total} zł

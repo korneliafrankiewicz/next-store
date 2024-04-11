@@ -4,24 +4,32 @@ import Login from '../Login/Login';
 import Box from '@mui/material/Box';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Link from 'next/link';
-import { Button } from '@mui/material';
-import { useCartStore } from '../../../../lib/store/cart';
+import { Button, Palette, SxProps } from '@mui/material';
+import { useCartQuantity } from '../../store/hooks/useCartQuantity';
+import { Theme } from '@mui/material/styles';
+
+interface MyTheme extends Theme {
+  palette: Palette & {
+    DARK_BROWN: string;
+    WHITE: string;
+  };
+}
 
 const styles = {
-  header: (theme: any) => ({
+  header: {
     display: 'flex',
     justifyContent: 'space-between',
     paddingTop: '20px',
-  }),
-  icon: (theme: any) => ({
-    color: `${theme.palette.WHITE}`,
+  },
+  icon: (theme: MyTheme) => ({
+    color: theme.palette.WHITE,
   }),
   icons: {
     alignItems: 'center',
     display: 'flex',
     paddingRight: '20px',
   },
-  quantity: (theme: any) => ({
+  quantity: (theme: MyTheme) => ({
     backgroundColor: `${theme.palette.DARK_BROWN}`,
     display: 'flex',
     borderRadius: '50%',
@@ -38,12 +46,8 @@ const styles = {
 };
 
 const Header = () => {
-  const getCartQuantity = useCartStore((state) => {
-    return state.items.reduce(
-      (totalQuantity, item) => totalQuantity + item.quantity,
-      0
-    );
-  });
+  const quantity = useCartQuantity();
+
   return (
     <Box sx={styles.header}>
       <Menu />
@@ -51,8 +55,11 @@ const Header = () => {
         <Login />
         <Link href='/cart'>
           <Button>
-            <ShoppingCartIcon sx={styles.icon} fontSize='large' />
-            <Box sx={styles.quantity}>{getCartQuantity}</Box>
+            <ShoppingCartIcon
+              sx={styles.icon as SxProps<Theme>}
+              fontSize='large'
+            />
+            <Box sx={styles.quantity as SxProps<Theme>}>{quantity}</Box>
           </Button>
         </Link>
       </Box>

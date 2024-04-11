@@ -35,9 +35,7 @@ export const useCartStore = create<CartStore>((set) => ({
   }),
   removeFromCart: (productTitle) => set((state) => {
     const itemToRemove = state.items.find(item => item.attributes.Title === productTitle);
-    if (!itemToRemove) {
-      return state;
-    }
+    if (!itemToRemove) return state;
     if (itemToRemove.quantity > 1) {
       return {
         ...state,

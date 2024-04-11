@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { useProducts } from '../../../../lib/services/service';
 import { Product } from '@/app/models/product';
 import ProductItem from '../ProductIem/ProductItem';
-import { useCartStore } from '../../../../lib/store/cart';
+import { useCartStore } from '../../store/cart';
 import Spinner from '../Spinner/Spinner';
 
 const styles = {
@@ -20,8 +20,7 @@ const styles = {
 
 const ProductList = () => {
   const { data: products, isLoading, isError } = useProducts();
-  const total = useCartStore((state) => state.total);
-
+  const { total } = useCartStore();
   if (isError) return <Typography variant='body3'>Failed to load</Typography>;
   if (isLoading) return <Spinner />;
 

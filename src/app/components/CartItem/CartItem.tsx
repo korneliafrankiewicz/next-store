@@ -1,15 +1,15 @@
 import React from 'react';
-import { Product } from '@/app/models/product';
-import { AddShoppingCart } from '@mui/icons-material';
 import {
-  ListItem,
-  ListItemAvatar,
   Avatar,
   Box,
-  ListItemText,
   IconButton,
-} from '@mui/material';
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from '@mui/material/';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useCartStore } from '../../store/cart';
+import { Product } from '@/app/models/product';
 
 const styles = {
   productItem: (theme: any) => ({
@@ -30,16 +30,23 @@ const styles = {
   },
 
   image: {
-    width: '80px',
-    height: '80px',
+    width: '50px',
+    height: '50px',
   },
   icon: (theme: any) => ({
     color: `${theme.palette.DARK_BROWN}`,
   }),
+  text: {
+    display: 'flex',
+    justifyContent: 'end',
+  },
 };
 
-const ProductItem = ({ product }: { product: Product }) => {
-  const { addToCart } = useCartStore();
+const CartItem = ({ product }: { product: Product }) => {
+  const { items, removeFromCart } = useCartStore();
+  const quantity = items.filter(
+    (item) => item.attributes.Title === product.attributes.Title
+  )[0].quantity;
 
   return (
     <ListItem sx={styles.productItem}>
@@ -58,11 +65,12 @@ const ProductItem = ({ product }: { product: Product }) => {
         sx={styles.price}
         primary={`${product.attributes.Price.toString()} zł`}
       />
-      <IconButton onClick={() => addToCart(product)}>
-        <AddShoppingCart sx={styles.icon} />
+      <ListItemText primary={`${quantity}`} />
+      <IconButton onClick={() => removeFromCart(product.attributes.Title)}>
+        <DeleteIcon sx={styles.icon} />
       </IconButton>
     </ListItem>
   );
 };
 
-export default ProductItem;
+export default CartItem;
