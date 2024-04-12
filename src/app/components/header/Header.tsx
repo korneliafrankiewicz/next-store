@@ -4,16 +4,18 @@ import Login from '../Login/Login';
 import Box from '@mui/material/Box';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Link from 'next/link';
-import { Button, Palette, SxProps } from '@mui/material';
+import { Button, SxProps } from '@mui/material';
 import { useCartQuantity } from '../../store/hooks/useCartQuantity';
 import { Theme } from '@mui/material/styles';
 
-interface MyTheme extends Theme {
-  palette: Palette & {
-    DARK_BROWN: string;
-    WHITE: string;
-  };
-}
+const Colors = {
+  palette: {
+    DARK_BROWN: '#492D29',
+    WHITE: '#FFFFFF',
+  },
+};
+
+type ColorsInfered = typeof Colors;
 
 const styles = {
   header: {
@@ -21,7 +23,7 @@ const styles = {
     justifyContent: 'space-between',
     paddingTop: '20px',
   },
-  icon: (theme: MyTheme) => ({
+  icon: (theme: ColorsInfered) => ({
     color: theme.palette.WHITE,
   }),
   icons: {
@@ -29,7 +31,7 @@ const styles = {
     display: 'flex',
     paddingRight: '20px',
   },
-  quantity: (theme: MyTheme) => ({
+  quantity: (theme: ColorsInfered) => ({
     backgroundColor: `${theme.palette.DARK_BROWN}`,
     display: 'flex',
     borderRadius: '50%',

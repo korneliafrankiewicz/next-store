@@ -8,6 +8,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  SxProps,
+  Theme,
 } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -17,14 +19,23 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { css } from '@emotion/css';
 
+const Colors = {
+  palette: {
+    DARK_BROWN: '#492D29',
+    WHITE: '#FFFFFF',
+  },
+};
+
+type ColorsInfered = typeof Colors;
+
 const styles = {
-  menuIcon: (theme: any) => ({
+  menuIcon: (theme: ColorsInfered) => ({
     color: `${theme.palette.WHITE}`,
   }),
-  icon: (theme: any) => ({
+  icon: (theme: ColorsInfered) => ({
     color: `${theme.palette.DARK_BROWN}`,
   }),
-  text: (theme: any) => ({
+  text: (theme: ColorsInfered) => ({
     color: `${theme.palette.DARK_BROWN}`,
     textDecoration: 'none',
   }),
@@ -71,8 +82,13 @@ const Menu = () => {
           <Link href={tab.link} className={linkStyles} key={index}>
             <ListItem disablePadding>
               <ListItemButton>
-                <ListItemIcon sx={styles.icon}>{tab.icon}</ListItemIcon>
-                <ListItemText sx={styles.text} primary={tab.name} />
+                <ListItemIcon sx={styles.icon as SxProps<Theme>}>
+                  {tab.icon}
+                </ListItemIcon>
+                <ListItemText
+                  sx={styles.text as SxProps<Theme>}
+                  primary={tab.name}
+                />
               </ListItemButton>
             </ListItem>
           </Link>
@@ -84,7 +100,7 @@ const Menu = () => {
   return (
     <div>
       <Button onClick={toggleDrawer(true)}>
-        <MenuIcon fontSize='large' sx={styles.menuIcon} />
+        <MenuIcon fontSize='large' sx={styles.menuIcon as SxProps<Theme>} />
       </Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}

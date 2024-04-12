@@ -1,9 +1,18 @@
-import { Box, Typography } from '@mui/material';
+import { Box, SxProps, Theme, Typography } from '@mui/material';
 import React from 'react';
 import CopyrightIcon from '@mui/icons-material/Copyright';
 
+const Colors = {
+  palette: {
+    BEIGE: '#D7AC85',
+    WHITE: '#FFFFFF',
+  },
+};
+
+type ColorsInfered = typeof Colors;
+
 const styles = {
-  footer: (theme: any) => ({
+  footer: (theme: ColorsInfered) => ({
     display: 'flex',
     bottom: 0,
     left: 0,
@@ -14,7 +23,7 @@ const styles = {
     backgroundColor: `${theme.palette.BEIGE}`,
     position: 'relative',
   }),
-  iconStyles: (theme: any) => ({
+  iconStyles: (theme: ColorsInfered) => ({
     color: `${theme.palette.WHITE}`,
   }),
   footerText: {
@@ -24,8 +33,11 @@ const styles = {
 
 const Footer: React.FC = () => {
   return (
-    <Box sx={styles.footer}>
-      <CopyrightIcon fontSize='small' sx={styles.iconStyles} />
+    <Box sx={styles.footer as SxProps<Theme>}>
+      <CopyrightIcon
+        fontSize='small'
+        sx={styles.iconStyles as SxProps<Theme>}
+      />
       <Typography sx={styles.footerText} variant='body3'>
         Footer
       </Typography>

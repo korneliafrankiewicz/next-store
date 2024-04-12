@@ -1,6 +1,14 @@
-import { Box, Typography } from '@mui/material';
+import { Box, SxProps, Theme, Typography } from '@mui/material';
 import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
+
+const Colors = {
+  palette: {
+    WHITE: '#FFFFFF',
+  },
+};
+
+type ColorsInfered = typeof Colors;
 
 const styles = {
   spinnerWrapper: {
@@ -8,7 +16,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loader: (theme: any) => ({
+  loader: (theme: ColorsInfered) => ({
     color: `${theme.palette.WHITE}`,
   }),
   text: {
@@ -19,7 +27,7 @@ const styles = {
 const Spinner = () => {
   return (
     <Box sx={styles.spinnerWrapper}>
-      <CircularProgress sx={styles.loader} />
+      <CircularProgress sx={styles.loader as SxProps<Theme>} />
       <Typography sx={styles.text} variant='body3'>
         Loading...
       </Typography>

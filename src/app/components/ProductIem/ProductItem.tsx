@@ -8,11 +8,22 @@ import {
   Box,
   ListItemText,
   IconButton,
+  SxProps,
+  Theme,
 } from '@mui/material';
 import { useCartStore } from '../../store/cart';
 
+const Colors = {
+  palette: {
+    DARK_BROWN: '#492D29',
+    WHITE: '#FFFFFF',
+  },
+};
+
+type ColorsInfered = typeof Colors;
+
 const styles = {
-  productItem: (theme: any) => ({
+  productItem: (theme: ColorsInfered) => ({
     borderRadius: '12px',
     backgroundColor: `${theme.palette.WHITE}`,
   }),
@@ -33,7 +44,7 @@ const styles = {
     width: '80px',
     height: '80px',
   },
-  icon: (theme: any) => ({
+  icon: (theme: ColorsInfered) => ({
     color: `${theme.palette.DARK_BROWN}`,
   }),
 };
@@ -42,7 +53,7 @@ const ProductItem = ({ product }: { product: Product }) => {
   const { addToCart } = useCartStore();
 
   return (
-    <ListItem sx={styles.productItem}>
+    <ListItem sx={styles.productItem as SxProps<Theme>}>
       <ListItemAvatar>
         <Avatar
           sx={styles.image}
@@ -59,7 +70,7 @@ const ProductItem = ({ product }: { product: Product }) => {
         primary={`${product.attributes.Price.toString()} zł`}
       />
       <IconButton onClick={() => addToCart(product)}>
-        <AddShoppingCart sx={styles.icon} />
+        <AddShoppingCart sx={styles.icon as SxProps<Theme>} />
       </IconButton>
     </ListItem>
   );

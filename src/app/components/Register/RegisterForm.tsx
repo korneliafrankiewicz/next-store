@@ -1,7 +1,16 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Typography, Button, Box, TextField, Alert } from '@mui/material';
+import { Typography, Button, Box, TextField, Alert, SxProps, Theme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useRegisterUser } from '../../../../lib/services/registerService';
+
+const Colors = {
+  palette: {
+    DARK_BROWN: '#492D29',
+    WHITE: '#FFFFFF',
+  },
+};
+
+type ColorsInfered = typeof Colors;
 
 type FormData = {
   email: string;
@@ -15,11 +24,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
   },
-  loginIconStyles: (theme: any) => ({
+  loginIconStyles: (theme: ColorsInfered) => ({
     color: `${theme.palette.WHITE}`,
     paddingLeft: '20px',
   }),
-  formBox: (theme: any) => ({
+  formBox: (theme: ColorsInfered) => ({
     backgroundColor: `${theme.palette.BEIGE}`,
     position: 'absolute',
     top: '50%',
@@ -59,10 +68,10 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <Box sx={styles.formBox}>
+    <Box sx={styles.formBox as SxProps<Theme>}>
       <Box sx={styles.header}>
         <Typography variant='h3'>Register user</Typography>
-        <AccountCircleIcon sx={styles.loginIconStyles} fontSize='large' />
+        <AccountCircleIcon sx={styles.loginIconStyles as SxProps<Theme>} fontSize='large' />
       </Box>
       <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField

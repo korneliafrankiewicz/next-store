@@ -6,12 +6,12 @@ import { useCartStore } from '../../store/cart';
 import Spinner from '../Spinner/Spinner';
 
 const styles = {
-  productsWrapper: (theme: any) => ({
+  productsWrapper: {
     display: 'flex',
     flexDirection: 'column',
     gap: '20px',
     paddingTop: '30px',
-  }),
+  },
   text: {
     display: 'flex',
     justifyContent: 'end',

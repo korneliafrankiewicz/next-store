@@ -6,13 +6,24 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  SxProps,
 } from '@mui/material/';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useCartStore } from '../../store/cart';
 import { Product } from '@/app/models/product';
+import { Theme } from '@mui/material/styles';
+
+const Colors = {
+  palette: {
+    DARK_BROWN: '#492D29',
+    WHITE: '#FFFFFF',
+  },
+};
+
+type ColorsInfered = typeof Colors;
 
 const styles = {
-  productItem: (theme: any) => ({
+  productItem: (theme: ColorsInfered) => ({
     borderRadius: '12px',
     backgroundColor: `${theme.palette.WHITE}`,
   }),
@@ -33,7 +44,7 @@ const styles = {
     width: '50px',
     height: '50px',
   },
-  icon: (theme: any) => ({
+  icon: (theme: ColorsInfered) => ({
     color: `${theme.palette.DARK_BROWN}`,
   }),
   text: {
@@ -49,7 +60,7 @@ const CartItem = ({ product }: { product: Product }) => {
   )[0].quantity;
 
   return (
-    <ListItem sx={styles.productItem}>
+    <ListItem sx={styles.productItem as SxProps<Theme>}>
       <ListItemAvatar>
         <Avatar
           sx={styles.image}
@@ -67,7 +78,7 @@ const CartItem = ({ product }: { product: Product }) => {
       />
       <ListItemText primary={`${quantity}`} />
       <IconButton onClick={() => removeFromCart(product.attributes.Title)}>
-        <DeleteIcon sx={styles.icon} />
+        <DeleteIcon sx={styles.icon as SxProps<Theme>} />
       </IconButton>
     </ListItem>
   );
