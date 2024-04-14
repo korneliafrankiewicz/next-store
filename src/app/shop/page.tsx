@@ -2,8 +2,8 @@
 import { Box, SxProps, Theme, ThemeProvider } from '@mui/material';
 import theme from '../../theme/theme';
 import type { NextPage } from 'next';
+import ProductList from '../components/ProductList/ProductList';
 import BaseLayout from '../components/BaseLayout/BaseLayout';
-import Cart from '../components/Cart/Cart';
 
 const Colors = {
   palette: {
@@ -25,7 +25,7 @@ const Shop: NextPage = () => {
     <ThemeProvider theme={theme}>
       <Box sx={styles.main as SxProps<Theme>}>
         <BaseLayout>
-          <Cart />
+          <ProductList />
         </BaseLayout>
       </Box>
     </ThemeProvider>

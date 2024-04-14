@@ -4,26 +4,52 @@ import Login from '../Login/Login';
 import Box from '@mui/material/Box';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Link from 'next/link';
-import { Button } from '@mui/material';
+import { Button, SxProps } from '@mui/material';
+import { useCartQuantity } from '../../store/hooks/useCartQuantity';
+import { Theme } from '@mui/material/styles';
+
+const Colors = {
+  palette: {
+    DARK_BROWN: '#492D29',
+    WHITE: '#FFFFFF',
+  },
+};
+
+type ColorsInfered = typeof Colors;
 
 const styles = {
-  header: (theme: any) => ({
+  header: {
     display: 'flex',
     justifyContent: 'space-between',
     paddingTop: '20px',
-  }),
-  icon: (theme: any) => ({
-    color: `${theme.palette.WHITE}`,
-    paddingLeft: '20px',
+  },
+  icon: (theme: ColorsInfered) => ({
+    color: theme.palette.WHITE,
   }),
   icons: {
     alignItems: 'center',
     display: 'flex',
     paddingRight: '20px',
   },
+  quantity: (theme: ColorsInfered) => ({
+    backgroundColor: `${theme.palette.DARK_BROWN}`,
+    display: 'flex',
+    borderRadius: '50%',
+    color: `${theme.palette.WHITE}`,
+    fontSize: '8px',
+    height: '16px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '16px',
+    position: 'absolute',
+    top: '0',
+    right: '6px',
+  }),
 };
 
-const Header: React.FC = () => {
+const Header = () => {
+  const quantity = useCartQuantity();
+
   return (
     <Box sx={styles.header}>
       <Menu />
@@ -31,7 +57,11 @@ const Header: React.FC = () => {
         <Login />
         <Link href='/cart'>
           <Button>
-            <ShoppingCartIcon sx={styles.icon} fontSize='large' />
+            <ShoppingCartIcon
+              sx={styles.icon as SxProps<Theme>}
+              fontSize='large'
+            />
+            <Box sx={styles.quantity as SxProps<Theme>}>{quantity}</Box>
           </Button>
         </Link>
       </Box>

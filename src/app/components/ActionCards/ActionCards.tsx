@@ -7,7 +7,9 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import { useProducts } from '../../../../lib/services/service';
+import { useProducts } from '../../../services/service';
+import { Product } from '@/app/models/product';
+import Spinner from '../Spinner/Spinner';
 
 const styles = {
   cardWrapper: {
@@ -21,18 +23,10 @@ const styles = {
   },
 };
 
-type Product = {
-  attributes: {
-    Title: string;
-    Image: string;
-    Description: string;
-  };
-};
-
 const ActionCards = () => {
   const { data: products, isLoading, isError } = useProducts();
-  if (isError) return <div>Failed to load</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <Typography variant='body3'>Failed to load</Typography>;
+  if (isLoading) return <Spinner />;
 
   return (
     <Box sx={styles.cardWrapper}>

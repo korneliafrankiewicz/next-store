@@ -3,20 +3,24 @@ import React from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import { Container, ThemeProvider } from '@mui/material';
-import theme from '../../../../lib/theme/theme';
+import theme from '../../../theme/theme';
 
 interface BaseLayoutProps {
   children: React.ReactNode;
 }
 
+const containerStyles = {
+  height: '100%',
+};
+
 const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Container>
+      <Container sx={containerStyles}>
         <Header />
         {children}
-        <Footer />
       </Container>
+      <Footer />
     </ThemeProvider>
   );
 };

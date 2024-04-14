@@ -2,9 +2,17 @@ import HomeHeader from './HomeHeader';
 import image from '../../assets/wood_image.jpg';
 import ActionCards from '../ActionCards/ActionCards';
 import BaseLayout from '../BaseLayout/BaseLayout';
-import { Paper, Box } from '@mui/material';
+import { Paper, Box, SxProps, Theme } from '@mui/material';
 
-const mainBox = (theme: any) => ({
+const Colors = {
+  palette: {
+    BEIGE: '#D7AC85',
+  },
+};
+
+type ColorsInfered = typeof Colors;
+
+const mainBox = (theme: ColorsInfered) => ({
   backgroundColor: `${theme.palette.BEIGE}`,
   position: 'absolute',
   top: '50%',
@@ -18,7 +26,7 @@ const wrapper = {
   position: 'relative',
   width: '100vw',
   height: '100vh',
-  overflow: 'hidden',
+  overflowX: 'hidden',
   backgroundImage: `url(${image.src})`,
 };
 
@@ -26,7 +34,7 @@ export const Home = () => {
   return (
     <Box sx={wrapper}>
       <BaseLayout>
-        <Paper sx={mainBox} elevation={3}>
+        <Paper sx={mainBox as SxProps<Theme>} elevation={3}>
           <HomeHeader />
           <ActionCards />
         </Paper>

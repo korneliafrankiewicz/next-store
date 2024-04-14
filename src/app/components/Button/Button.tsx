@@ -17,7 +17,7 @@ const styles = {
 
 const ButtonElement = () => {
   return (
-    <Link href='/store'>
+    <Link href='/shop'>
       <Button sx={styles.button} variant='contained'>
         <ShoppingCartIcon fontSize='large' sx={styles.icon} />
         Go to shop
