@@ -1,6 +1,14 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Typography, TextField, Button, Box, Alert, SxProps, Theme } from '@mui/material';
-import { useLogin } from '../../../../lib/services/authService';
+import {
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Alert,
+  SxProps,
+  Theme,
+} from '@mui/material';
+import { useLogin } from '../../../services/authService';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
@@ -66,7 +74,10 @@ const LoginForm: React.FC = () => {
     <Box sx={styles.formBox as SxProps<Theme>}>
       <Box sx={styles.header}>
         <Typography variant='h3'>Login</Typography>
-        <AccountCircleIcon sx={styles.loginIconStyles as SxProps<Theme>} fontSize='large' />
+        <AccountCircleIcon
+          sx={styles.loginIconStyles as SxProps<Theme>}
+          fontSize='large'
+        />
       </Box>
       <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField

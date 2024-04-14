@@ -1,7 +1,15 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Typography, Button, Box, TextField, Alert, SxProps, Theme } from '@mui/material';
+import {
+  Typography,
+  Button,
+  Box,
+  TextField,
+  Alert,
+  SxProps,
+  Theme,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useRegisterUser } from '../../../../lib/services/registerService';
+import { useRegisterUser } from '../../../services/registerService';
 
 const Colors = {
   palette: {
@@ -71,7 +79,10 @@ const RegisterForm: React.FC = () => {
     <Box sx={styles.formBox as SxProps<Theme>}>
       <Box sx={styles.header}>
         <Typography variant='h3'>Register user</Typography>
-        <AccountCircleIcon sx={styles.loginIconStyles as SxProps<Theme>} fontSize='large' />
+        <AccountCircleIcon
+          sx={styles.loginIconStyles as SxProps<Theme>}
+          fontSize='large'
+        />
       </Box>
       <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField

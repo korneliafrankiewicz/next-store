@@ -1,6 +1,6 @@
 'use client';
 import { Box, SxProps, Theme, ThemeProvider } from '@mui/material';
-import theme from '../../../lib/theme/theme';
+import theme from '../../theme/theme';
 import type { NextPage } from 'next';
 import ProductList from '../components/ProductList/ProductList';
 import BaseLayout from '../components/BaseLayout/BaseLayout';

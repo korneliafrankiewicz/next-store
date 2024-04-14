@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { useProducts } from '../../../../lib/services/service';
+import { useProducts } from '../../../services/service';
 import { Product } from '@/app/models/product';
 import ProductItem from '../ProductIem/ProductItem';
 import { useCartStore } from '../../store/cart';
