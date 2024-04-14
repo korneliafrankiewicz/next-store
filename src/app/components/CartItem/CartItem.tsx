@@ -20,10 +20,10 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 const styles = {
-  productItem: (theme: ColorsInfered) => ({
+  productItem: (theme: MyTheme) => ({
     borderRadius: '12px',
     backgroundColor: `${theme.palette.WHITE}`,
   }),
@@ -44,7 +44,7 @@ const styles = {
     width: '50px',
     height: '50px',
   },
-  icon: (theme: ColorsInfered) => ({
+  icon: (theme: MyTheme) => ({
     color: `${theme.palette.DARK_BROWN}`,
   }),
   text: {
