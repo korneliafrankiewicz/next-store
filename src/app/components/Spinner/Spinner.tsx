@@ -8,7 +8,7 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 const styles = {
   spinnerWrapper: {
@@ -16,7 +16,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loader: (theme: ColorsInfered) => ({
+  loader: (theme: MyTheme) => ({
     color: `${theme.palette.WHITE}`,
   }),
   text: {

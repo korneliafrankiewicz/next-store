@@ -9,10 +9,10 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 const styles = {
-  footer: (theme: ColorsInfered) => ({
+  footer: (theme: MyTheme) => ({
     display: 'flex',
     bottom: 0,
     left: 0,
@@ -23,7 +23,7 @@ const styles = {
     backgroundColor: `${theme.palette.BEIGE}`,
     position: 'relative',
   }),
-  iconStyles: (theme: ColorsInfered) => ({
+  iconStyles: (theme: MyTheme) => ({
     color: `${theme.palette.WHITE}`,
   }),
   footerText: {

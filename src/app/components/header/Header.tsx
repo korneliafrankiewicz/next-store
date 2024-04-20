@@ -15,7 +15,7 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 const styles = {
   header: {
@@ -23,7 +23,7 @@ const styles = {
     justifyContent: 'space-between',
     paddingTop: '20px',
   },
-  icon: (theme: ColorsInfered) => ({
+  icon: (theme: MyTheme) => ({
     color: theme.palette.WHITE,
   }),
   icons: {
@@ -31,7 +31,7 @@ const styles = {
     display: 'flex',
     paddingRight: '20px',
   },
-  quantity: (theme: ColorsInfered) => ({
+  quantity: (theme: MyTheme) => ({
     backgroundColor: `${theme.palette.DARK_BROWN}`,
     display: 'flex',
     borderRadius: '50%',

@@ -26,16 +26,16 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 const styles = {
-  menuIcon: (theme: ColorsInfered) => ({
+  menuIcon: (theme: MyTheme) => ({
     color: `${theme.palette.WHITE}`,
   }),
-  icon: (theme: ColorsInfered) => ({
+  icon: (theme: MyTheme) => ({
     color: `${theme.palette.DARK_BROWN}`,
   }),
-  text: (theme: ColorsInfered) => ({
+  text: (theme: MyTheme) => ({
     color: `${theme.palette.DARK_BROWN}`,
     textDecoration: 'none',
   }),

@@ -10,9 +10,9 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
-const loginIconStyles = (theme: ColorsInfered) => ({
+const loginIconStyles = (theme: MyTheme) => ({
   color: `${theme.palette.WHITE}`,
 });
 
@@ -20,7 +20,10 @@ const Login = () => {
   return (
     <Link href='/login'>
       <Button>
-        <AccountCircleIcon sx={loginIconStyles as SxProps<Theme>} fontSize='large' />
+        <AccountCircleIcon
+          sx={loginIconStyles as SxProps<Theme>}
+          fontSize='large'
+        />
       </Button>
     </Link>
   );

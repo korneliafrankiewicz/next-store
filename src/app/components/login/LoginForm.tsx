@@ -19,7 +19,7 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 type FormData = {
   identifier: string;
@@ -32,11 +32,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
   },
-  loginIconStyles: (theme: ColorsInfered) => ({
+  loginIconStyles: (theme: MyTheme) => ({
     color: `${theme.palette.WHITE}`,
     paddingLeft: '20px',
   }),
-  formBox: (theme: ColorsInfered) => ({
+  formBox: (theme: MyTheme) => ({
     backgroundColor: `${theme.palette.BEIGE}`,
     position: 'absolute',
     top: '50%',

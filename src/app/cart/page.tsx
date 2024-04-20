@@ -11,10 +11,10 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 const styles = {
-  main: (theme: ColorsInfered) => ({
+  main: (theme: MyTheme) => ({
     backgroundColor: `${theme.palette.BEIGE}`,
     height: '100%',
   }),

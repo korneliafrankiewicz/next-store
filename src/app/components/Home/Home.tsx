@@ -10,9 +10,9 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
-const mainBox = (theme: ColorsInfered) => ({
+const mainBox = (theme: MyTheme) => ({
   backgroundColor: `${theme.palette.BEIGE}`,
   position: 'absolute',
   top: '50%',
