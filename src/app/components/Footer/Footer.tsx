@@ -15,12 +15,10 @@ const styles = {
   footer: (theme: MyTheme) => ({
     display: 'flex',
     bottom: 0,
-    left: 0,
     width: '100%',
     height: '40px',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: `${theme.palette.BEIGE}`,
     position: 'relative',
   }),
   iconStyles: (theme: MyTheme) => ({

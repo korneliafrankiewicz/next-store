@@ -1,9 +1,8 @@
 'use client';
 import { Box, SxProps, Theme, ThemeProvider } from '@mui/material';
-import theme from '../../theme/theme';
+import theme from '../../../theme/theme';
 import type { NextPage } from 'next';
-import BaseLayout from '../components/BaseLayout/BaseLayout';
-import Cart from '../components/Cart/Cart';
+import BaseLayout from '../../components/BaseLayout/BaseLayout';
 
 const Colors = {
   palette: {
@@ -20,16 +19,14 @@ const styles = {
   }),
 };
 
-const Shop: NextPage = () => {
+const Order: NextPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={styles.main as SxProps<Theme>}>
-        <BaseLayout>
-          <Cart />
-        </BaseLayout>
+        <BaseLayout>We are proceeding yoour order!</BaseLayout>
       </Box>
     </ThemeProvider>
   );
 };
 
-export default Shop;
+export default Order;

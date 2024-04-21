@@ -4,9 +4,10 @@ import Login from '../Login/Login';
 import Box from '@mui/material/Box';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Link from 'next/link';
-import { Button, SxProps } from '@mui/material';
+import { Button, SxProps, Typography } from '@mui/material';
 import { useCartQuantity } from '../../store/hooks/useCartQuantity';
 import { Theme } from '@mui/material/styles';
+import { useCartStore } from '@/app/store/cart';
 
 const Colors = {
   palette: {
@@ -49,11 +50,13 @@ const styles = {
 
 const Header = () => {
   const quantity = useCartQuantity();
+  const { total } = useCartStore();
 
   return (
     <Box sx={styles.header}>
       <Menu />
       <Box sx={styles.icons}>
+        <Typography variant='body3'>Total: {total} zł</Typography>
         <Login />
         <Link href='/cart'>
           <Button>
