@@ -1,10 +1,8 @@
 import useSWR, { mutate } from 'swr';
 
-// ... (fetcher function and useProducts hook)
-
-const orderProducts = async (cartItems) => {
+const orderProducts = async (cartItems: any) => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/cart`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -17,10 +15,9 @@ const orderProducts = async (cartItems) => {
     }
 
     const jsonResponse = await response.json();
-    console.log('Cart saved successfully:', jsonResponse);
+    console.log('Order saved successfully:', jsonResponse);
 
-    // After a successful save, update the local data
-    mutate(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/cart`, jsonResponse, false);
+    mutate(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/order`, jsonResponse, false);
   } catch (error) {
     console.error('There has been a problem with your fetch operation:', error);
   }

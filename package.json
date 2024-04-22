@@ -19,7 +19,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.1",
     "swr": "^2.2.5",
-    "zustand": "^4.5.2"
+    "zustand": "^3.5.10"
   },
   "devDependencies": {
     "@types/node": "^20.11.25",

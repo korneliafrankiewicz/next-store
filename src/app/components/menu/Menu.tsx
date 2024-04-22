@@ -16,6 +16,7 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
 import { css } from '@emotion/css';
 
@@ -72,6 +73,11 @@ const Menu = () => {
       name: 'Contact',
       icon: <MailIcon />,
       link: '/contact',
+    },
+    {
+      name: 'Home',
+      icon: <HomeIcon />,
+      link: '/',
     },
   ];
 

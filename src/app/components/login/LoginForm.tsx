@@ -12,6 +12,7 @@ import { useLogin } from '../../../services/authService';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useUserStore } from '@/app/store/user';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Colors = {
   palette: {
@@ -54,6 +55,9 @@ const styles = {
   },
   alertSuccess: {
     marginTop: '8px',
+  },
+  icon: {
+    paddingLeft: '10px',
   },
 };
 
@@ -148,9 +152,19 @@ const LoginForm: React.FC = () => {
         </Link>
 
         {isLoggedIn && (
-          <Alert sx={styles.alertSuccess} severity='success'>
-            {`Hello ${user?.email} you're logged in!`}
-          </Alert>
+          <>
+            <Alert sx={styles.alertSuccess} severity='success'>
+              {`Hello ${user?.email} you're logged in!`}
+            </Alert>
+            <Button
+              sx={styles.loginButton}
+              href='/shop'
+              fullWidth
+              variant='contained'>
+              Go to shop
+              <ShoppingCartIcon sx={styles.icon} />
+            </Button>
+          </>
         )}
 
         {isError && (

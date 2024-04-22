@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Button } from '@mui/material/';
+import { Box, Button, Typography } from '@mui/material/';
 import { useCartStore } from '../../store/cart';
 import CartItem from '../CartItem/CartItem';
 import Link from 'next/link';
-import { text } from 'stream/consumers';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const styles = {
   productsWrapper: {
@@ -16,11 +16,16 @@ const styles = {
     justifyContent: 'end',
     display: 'flex',
     textDecoration: 'none',
+    alignSelf: 'end',
+  },
+  text: {
+    fontSize: '14px',
+    paddingRight: '10px',
   },
 };
 
 const Cart = () => {
-  const { items } = useCartStore();
+  const { items, clearCart } = useCartStore();
 
   return (
     <Box sx={styles.productsWrapper}>
@@ -37,6 +42,10 @@ const Cart = () => {
           }}
         />
       ))}
+      <Button style={styles.button} variant='contained' onClick={clearCart}>
+        <Typography sx={styles.text}>Clear cart</Typography>
+        <DeleteIcon />
+      </Button>
       <Link style={styles.button} href='/cart/order'>
         <Button variant='contained'>Submit order</Button>
       </Link>
