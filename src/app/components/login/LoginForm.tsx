@@ -11,6 +11,7 @@ import {
 import { useLogin } from '../../../services/authService';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { useUserStore } from '@/app/store/user';
 
 const Colors = {
   palette: {
@@ -51,10 +52,14 @@ const styles = {
   alert: {
     marginBottom: '8px',
   },
+  alertSuccess: {
+    marginTop: '8px',
+  },
 };
 
 const LoginForm: React.FC = () => {
-  const { data, trigger, isLoading, isError } = useLogin();
+  const { data, trigger, isError } = useLogin();
+  const { user, setUser, isLoggedIn, setIsLoggedIn } = useUserStore();
 
   const {
     register,
@@ -64,9 +69,17 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await trigger(data);
+      const response = await trigger(data);
+
+      if (response.status === 200) {
+        setUser({ ...user, email: data.identifier });
+        setIsLoggedIn(true);
+      } else {
+        alert('Invalid credentials');
+      }
     } catch (error) {
       console.error('An error occurred during logging:', error);
+      alert('Invalid credentials');
     }
   };
 
@@ -119,6 +132,7 @@ const LoginForm: React.FC = () => {
         {errors.password && (
           <Alert severity='error'>{errors.password?.message}</Alert>
         )}
+
         <Button
           sx={styles.loginButton}
           type='submit'
@@ -126,14 +140,22 @@ const LoginForm: React.FC = () => {
           variant='contained'>
           Sign in
         </Button>
+
         <Link href='/register'>
           <Button type='submit' fullWidth variant='contained'>
             Sign up
           </Button>
         </Link>
+
+        {isLoggedIn && (
+          <Alert sx={styles.alertSuccess} severity='success'>
+            {`Hello ${user?.email} you're logged in!`}
+          </Alert>
+        )}
+
         {isError && (
           <Alert sx={styles.alert} severity='error'>
-            {data.message}
+            {data?.message}
           </Alert>
         )}
       </Box>

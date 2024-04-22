@@ -8,6 +8,7 @@ import { Button, SxProps, Typography } from '@mui/material';
 import { useCartQuantity } from '../../store/hooks/useCartQuantity';
 import { Theme } from '@mui/material/styles';
 import { useCartStore } from '@/app/store/cart';
+import { useUserStore } from '@/app/store/user';
 
 const Colors = {
   palette: {
@@ -51,12 +52,19 @@ const styles = {
 const Header = () => {
   const quantity = useCartQuantity();
   const { total } = useCartStore();
+  const { user, setUser, isLoggedIn, setIsLoggedIn } = useUserStore();
 
   return (
     <Box sx={styles.header}>
       <Menu />
       <Box sx={styles.icons}>
-        <Typography variant='body3'>Total: {total} zł</Typography>
+        {isLoggedIn && (
+          <Typography variant='body3'>Hello {user?.email}</Typography>
+        )}
+
+        {total > 0 && (
+          <Typography variant='body3'>Total: {total} zł</Typography>
+        )}
         <Login />
         <Link href='/cart'>
           <Button>
