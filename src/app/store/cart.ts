@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Product } from '../models/product';
 
@@ -9,7 +9,7 @@ type CartStore = {
   total: number;
   addToCart: (product: Product) => void;
   removeFromCart: (productTitle: string) => void;
-  clearCart: () => void
+  clearCart: () => void;
 };
 
 export const useCartStore = create<CartStore>(

@@ -4,22 +4,28 @@ import ActionCards from '../ActionCards/ActionCards';
 import BaseLayout from '../BaseLayout/BaseLayout';
 import { Paper, Box, SxProps, Theme } from '@mui/material';
 
-const Colors = {
+const ThemeValues = {
   palette: {
     BEIGE: '#D7AC85',
   },
+  values: {
+    md: '992px',
+  },
 };
 
-type MyTheme = typeof Colors & Theme;
+type MyTheme = typeof ThemeValues & Theme;
 
 const mainBox = (theme: MyTheme) => ({
   backgroundColor: `${theme.palette.BEIGE}`,
   position: 'absolute',
-  top: '50%',
+  top: '90%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   padding: '30px',
   borderRadius: '12px',
+  [`@media screen and (min-width: ${theme.breakpoints.values.md})`]: {
+    top: '50%',
+  },
 });
 
 const wrapper = {
