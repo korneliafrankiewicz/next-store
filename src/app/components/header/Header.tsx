@@ -81,7 +81,9 @@ const Header = () => {
                 sx={styles.icon as SxProps<Theme>}
                 fontSize='large'
               />
-              <Box sx={styles.quantity as SxProps<Theme>}>{quantity}</Box>
+              {quantity > 0 && (
+                <Box sx={styles.quantity as SxProps<Theme>}>{quantity}</Box>
+              )}
             </Button>
           </Link>
           {total > 0 && <Typography variant='body3'>{total} zł</Typography>}

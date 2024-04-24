@@ -79,11 +79,10 @@ const LoginForm: React.FC = () => {
         setUser({ ...user, email: data.identifier });
         setIsLoggedIn(true);
       } else {
-        alert('Invalid credentials');
+        console.error('Invalid credentials');
       }
     } catch (error) {
       console.error('An error occurred during logging:', error);
-      alert('Invalid credentials');
     }
   };
 
