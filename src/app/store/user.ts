@@ -13,7 +13,7 @@ interface UserStore {
   logout: () => void
 }
 
-export const useUserStore = create<UserStore>(
+export const useUserStore = create<UserStore>()(
     persist(
       (set) => ({
         user: null,
