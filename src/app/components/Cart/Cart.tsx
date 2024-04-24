@@ -13,7 +13,12 @@ const styles = {
     paddingTop: '30px',
   },
   button: {
-    justifyContent: 'end',
+    justifyContent: 'center',
+    display: 'flex',
+    alignSelf: 'center',
+  },
+  buttonLink: {
+    justifyContent: 'center',
     display: 'flex',
     textDecoration: 'none',
     alignSelf: 'end',
@@ -42,11 +47,11 @@ const Cart = () => {
           }}
         />
       ))}
-      <Button style={styles.button} variant='contained' onClick={clearCart}>
+      <Button style={styles.button} variant='outlined' onClick={clearCart}>
         <Typography sx={styles.text}>Clear cart</Typography>
         <DeleteIcon />
       </Button>
-      <Link style={styles.button} href='/cart/order'>
+      <Link style={styles.buttonLink} href='/cart/order'>
         <Button variant='contained'>Submit order</Button>
       </Link>
     </Box>

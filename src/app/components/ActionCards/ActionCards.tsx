@@ -9,7 +9,7 @@ import {
   Theme,
 } from '@mui/material';
 import { useProducts } from '../../../services/service';
-import { Product } from '@/app/models/product';
+import { Product } from '../../../app/models/product';
 import Spinner from '../Spinner/Spinner';
 
 const Breakpoints = {
@@ -32,7 +32,7 @@ const styles = {
   }),
 
   card: {
-    minWidth: '300px',
+    flex: '1',
   },
 };
 

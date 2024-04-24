@@ -20,6 +20,18 @@ const theme = createTheme({
             },
           },
         },
+        {
+          props: { variant: 'outlined' },
+          style: {
+            color: colors.DARK_BROWN,
+            borderColor: colors.DARK_BROWN,
+            '&:hover': {
+              backgroundColor: colors.DARK_BROWN,
+              borderColor: colors.DARK_BROWN,
+              color: colors.WHITE
+            },
+          },
+        },
       ],
     },
   },
@@ -31,6 +43,9 @@ const theme = createTheme({
       fontWeight: 'bold',
       letterSpacing: '5px',
       color: colors.WHITE,
+      ['@media (max-width:992px)']: {
+        fontSize: 30,
+      },
     },
     h3: {
       fontFamily: lato.style.fontFamily,

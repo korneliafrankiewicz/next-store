@@ -3,6 +3,7 @@ import image from '../../assets/wood_image.jpg';
 import ActionCards from '../ActionCards/ActionCards';
 import BaseLayout from '../BaseLayout/BaseLayout';
 import { Paper, Box, SxProps, Theme } from '@mui/material';
+import React from 'react';
 
 const ThemeValues = {
   palette: {
@@ -18,13 +19,14 @@ type MyTheme = typeof ThemeValues & Theme;
 const mainBox = (theme: MyTheme) => ({
   backgroundColor: `${theme.palette.BEIGE}`,
   position: 'absolute',
-  top: '90%',
+  top: '520px',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   padding: '30px',
   borderRadius: '12px',
+  width: '80%',
   [`@media screen and (min-width: ${theme.breakpoints.values.md})`]: {
-    top: '50%',
+    top: '350px',
   },
 });
 

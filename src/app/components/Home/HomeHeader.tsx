@@ -14,10 +14,10 @@ const HomeHeader = () => {
     <>
       <div style={headerWrapper}>
         <div>
-          <Typography variant='h1'>Coffee</Typography>
-          <Typography variant='h1'>tables</Typography>
+          <Typography variant='h1'>Our</Typography>
+          <Typography variant='h1'>products</Typography>
           <Typography sx={subheader} variant='h5Italic'>
-            Handmade
+            Handmade furniture
           </Typography>
         </div>
         <ButtonElement />
