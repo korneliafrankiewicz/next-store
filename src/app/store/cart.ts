@@ -16,7 +16,6 @@ export const useCartStore = create<CartStore>(
   persist(
     (set) => ({
       items: [],
-      total: 0,
       addToCart: (product) =>
         set((state) => {
           const itemExists = state.items.find(
@@ -30,43 +29,46 @@ export const useCartStore = create<CartStore>(
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),
-              total: state.total + product.attributes.Price,
             };
           } else {
             return {
               ...state,
               items: [...state.items, { ...product, quantity: 1 }],
-              total: state.total + product.attributes.Price,
             };
           }
         }),
-      removeFromCart: (productTitle) =>
-        set((state) => {
-          const itemToRemove = state.items.find(
-            (item) => item.attributes.Title === productTitle
-          );
-          if (!itemToRemove) return state;
-          if (itemToRemove.quantity > 1) {
-            return {
-              ...state,
-              items: state.items.map((item) =>
-                item.attributes.Title === productTitle
-                  ? { ...item, quantity: item.quantity - 1 }
-                  : item
-              ),
-              total: state.total - itemToRemove.attributes.Price,
-            };
-          } else {
-            return {
-              ...state,
-              items: state.items.filter(
-                (item) => item.attributes.Title !== productTitle
-              ),
-              total: state.total - itemToRemove.attributes.Price,
-            };
-          }
-        }),
-      clearCart: () => set({ items: [], total: 0 }),
+        removeFromCart: (productTitle) =>
+          set((state) => {
+            const itemExists = state.items.find(
+              (item) => item.attributes.Title === productTitle
+            );
+            if (itemExists) {
+              if (itemExists.quantity > 1) {
+                return {
+                  ...state,
+                  items: state.items.map((item) =>
+                    item.attributes.Title === productTitle
+                      ? { ...item, quantity: item.quantity - 1 }
+                      : item
+                  ),
+                };
+              } else {
+                return {
+                  ...state,
+                  items: state.items.filter(
+                    (item) => item.attributes.Title !== productTitle
+                  ),
+                };
+              }
+            } else return state;
+          }),
+      clearCart: () => set({ items: [] }),
+      get total() {
+        return this.items.reduce(
+          (total, item) => total + item.attributes.Price * item.quantity,
+          0
+        );
+      },
     }),
     {
       name: 'cart-storage',

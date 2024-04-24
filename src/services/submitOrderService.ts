@@ -1,6 +1,6 @@
 import useSWR, { mutate } from 'swr';
 
-const orderProducts = async (cartItems: any) => {
+const submitOrder = async (cartItems: any) => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/order`, {
       method: 'POST',
