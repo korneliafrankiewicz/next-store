@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useUserStore } from '@/app/store/user';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useState } from 'react';
 
 const Colors = {
   palette: {
@@ -64,6 +65,7 @@ const styles = {
 const LoginForm: React.FC = () => {
   const { data, trigger, isError } = useLogin();
   const { user, setUser, isLoggedIn, setIsLoggedIn } = useUserStore();
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const {
     register,
@@ -79,10 +81,11 @@ const LoginForm: React.FC = () => {
         setUser({ ...user, email: data.identifier });
         setIsLoggedIn(true);
       } else {
-        console.error('Invalid credentials');
+        return setLoginError('Invalid credentials');
       }
     } catch (error) {
       console.error('An error occurred during logging:', error);
+      setLoginError('An error occurred during logging');
     }
   };
 
@@ -169,6 +172,11 @@ const LoginForm: React.FC = () => {
         {isError && (
           <Alert sx={styles.alert} severity='error'>
             {data?.message}
+          </Alert>
+        )}
+        {loginError && (
+          <Alert sx={styles.alert} severity='error'>
+            {loginError}
           </Alert>
         )}
       </Box>

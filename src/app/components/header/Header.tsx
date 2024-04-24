@@ -61,7 +61,6 @@ const Header = () => {
   const { user, isLoggedIn } = useUserStore();
   const handleLogout = () => {
     logout();
-    // Redirect to login page or do other post-logout actions
   };
 
   return (
@@ -69,7 +68,7 @@ const Header = () => {
       <Menu />
       <Box sx={styles.icons}>
         {isLoggedIn && (
-          <Typography sx={styles.text} variant='body3'>
+          <Typography sx={styles.text} variant='body4'>
             {user?.email}
           </Typography>
         )}

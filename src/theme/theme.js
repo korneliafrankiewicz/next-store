@@ -49,6 +49,11 @@ const theme = createTheme({
       fontSize: 16,
       color: colors.WHITE,
     },
+    body4: {
+      fontFamily: lato.style.fontFamily,
+      fontSize: 12,
+      color: colors.WHITE,
+    },
     h5Italic: {
       fontFamily: lato.style.fontFamily,
       fontStyle: 'italic',
