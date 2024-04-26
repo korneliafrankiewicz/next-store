@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import Spinner from './Spinner';
-import '@testing-library/jest-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import * as React from 'react';
 

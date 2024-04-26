@@ -1,6 +1,5 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import ButtonElement from './Button';
-import '@testing-library/jest-dom';
 import * as React from 'react';
 
 describe('Button component', () => {
