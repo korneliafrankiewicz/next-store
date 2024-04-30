@@ -8,7 +8,7 @@ import {
   Box,
   Theme,
 } from '@mui/material';
-import { useProducts } from '../../../services/service';
+import { useProducts } from '../../../services/productService';
 import { Product } from '../../../app/models/product';
 import Spinner from '../Spinner/Spinner';
 

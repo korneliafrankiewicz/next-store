@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { useProducts } from '../../../services/service';
+import { useProducts } from '../../../services/productService';
 import { Product } from '@/app/models/product';
 import ProductItem from '../ProductIem/ProductItem';
 import Spinner from '../Spinner/Spinner';
