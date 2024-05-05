@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ButtonElement from './Button';
 import * as React from 'react';
 
@@ -16,7 +16,7 @@ describe('Button component', () => {
 
   it('renders button with given text', () => {
     // Arrange
-    render(<ButtonElement>Go to shop</ButtonElement>);
+    render(<ButtonElement />);
 
     // Act
     const buttonElement = screen.getByTestId('button');
