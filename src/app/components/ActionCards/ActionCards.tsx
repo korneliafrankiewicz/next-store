@@ -6,20 +6,33 @@ import {
   CardMedia,
   Typography,
   Box,
+  Theme,
 } from '@mui/material';
 import { useProducts } from '../../../services/service';
-import { Product } from '@/app/models/product';
+import { Product } from '../../../app/models/product';
 import Spinner from '../Spinner/Spinner';
 
+const Breakpoints = {
+  values: {
+    md: '992px',
+  },
+};
+
+type MyTheme = typeof Breakpoints & Theme;
+
 const styles = {
-  cardWrapper: {
+  cardWrapper: (theme: MyTheme) => ({
     display: 'flex',
+    flexDirection: 'column',
     gap: '20px',
     paddingTop: '30px',
-  },
+    [`@media screen and (min-width: ${theme.breakpoints.values.md})`]: {
+      flexDirection: 'row',
+    },
+  }),
 
   card: {
-    minWidth: '300px',
+    flex: '1',
   },
 };
 

@@ -4,9 +4,12 @@ import Login from '../Login/Login';
 import Box from '@mui/material/Box';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Link from 'next/link';
-import { Button, SxProps } from '@mui/material';
+import { Button, SxProps, Typography } from '@mui/material';
 import { useCartQuantity } from '../../store/hooks/useCartQuantity';
 import { Theme } from '@mui/material/styles';
+import { useCartStore } from '@/app/store/cart';
+import { useUserStore } from '@/app/store/user';
+import { logout } from '@/services/logoutService';
 
 const Colors = {
   palette: {
@@ -15,7 +18,7 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 const styles = {
   header: {
@@ -23,7 +26,7 @@ const styles = {
     justifyContent: 'space-between',
     paddingTop: '20px',
   },
-  icon: (theme: ColorsInfered) => ({
+  icon: (theme: MyTheme) => ({
     color: theme.palette.WHITE,
   }),
   icons: {
@@ -31,7 +34,7 @@ const styles = {
     display: 'flex',
     paddingRight: '20px',
   },
-  quantity: (theme: ColorsInfered) => ({
+  quantity: (theme: MyTheme) => ({
     backgroundColor: `${theme.palette.DARK_BROWN}`,
     display: 'flex',
     borderRadius: '50%',
@@ -45,25 +48,51 @@ const styles = {
     top: '0',
     right: '6px',
   }),
+  text: (theme: MyTheme) => ({
+    backgroundColor: theme.palette.DARK_BROWN,
+    padding: '8px',
+    borderRadius: '6px',
+  }),
 };
 
 const Header = () => {
   const quantity = useCartQuantity();
+  const { total } = useCartStore();
+  const { user, isLoggedIn } = useUserStore();
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <Box sx={styles.header}>
       <Menu />
       <Box sx={styles.icons}>
+        {isLoggedIn && (
+          <Typography sx={styles.text} variant='body4'>
+            {user?.email}
+          </Typography>
+        )}
+
+        <Box>
+          <Link href='/cart'>
+            <Button>
+              <ShoppingCartIcon
+                sx={styles.icon as SxProps<Theme>}
+                fontSize='large'
+              />
+              {quantity > 0 && (
+                <Box sx={styles.quantity as SxProps<Theme>}>{quantity}</Box>
+              )}
+            </Button>
+          </Link>
+          {total > 0 && <Typography variant='body3'>{total} zł</Typography>}
+        </Box>
         <Login />
-        <Link href='/cart'>
-          <Button>
-            <ShoppingCartIcon
-              sx={styles.icon as SxProps<Theme>}
-              fontSize='large'
-            />
-            <Box sx={styles.quantity as SxProps<Theme>}>{quantity}</Box>
+        {isLoggedIn && (
+          <Button variant='contained' onClick={handleLogout}>
+            Logout
           </Button>
-        </Link>
+        )}
       </Box>
     </Box>
   );

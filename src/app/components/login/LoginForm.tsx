@@ -11,6 +11,9 @@ import {
 import { useLogin } from '../../../services/authService';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { useUserStore } from '@/app/store/user';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useState } from 'react';
 
 const Colors = {
   palette: {
@@ -19,7 +22,7 @@ const Colors = {
   },
 };
 
-type ColorsInfered = typeof Colors;
+type MyTheme = typeof Colors & Theme;
 
 type FormData = {
   identifier: string;
@@ -32,11 +35,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
   },
-  loginIconStyles: (theme: ColorsInfered) => ({
+  loginIconStyles: (theme: MyTheme) => ({
     color: `${theme.palette.WHITE}`,
     paddingLeft: '20px',
   }),
-  formBox: (theme: ColorsInfered) => ({
+  formBox: (theme: MyTheme) => ({
     backgroundColor: `${theme.palette.BEIGE}`,
     position: 'absolute',
     top: '50%',
@@ -51,10 +54,18 @@ const styles = {
   alert: {
     marginBottom: '8px',
   },
+  alertSuccess: {
+    marginTop: '8px',
+  },
+  icon: {
+    paddingLeft: '10px',
+  },
 };
 
 const LoginForm: React.FC = () => {
-  const { data, trigger, isLoading, isError } = useLogin();
+  const { data, trigger, isError } = useLogin();
+  const { user, setUser, isLoggedIn, setIsLoggedIn } = useUserStore();
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const {
     register,
@@ -64,9 +75,17 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await trigger(data);
+      const response = await trigger(data);
+
+      if (response.status === 200) {
+        setUser({ ...user, email: data.identifier });
+        setIsLoggedIn(true);
+      } else {
+        return setLoginError('Invalid credentials');
+      }
     } catch (error) {
       console.error('An error occurred during logging:', error);
+      setLoginError('An error occurred during logging');
     }
   };
 
@@ -119,6 +138,7 @@ const LoginForm: React.FC = () => {
         {errors.password && (
           <Alert severity='error'>{errors.password?.message}</Alert>
         )}
+
         <Button
           sx={styles.loginButton}
           type='submit'
@@ -126,14 +146,37 @@ const LoginForm: React.FC = () => {
           variant='contained'>
           Sign in
         </Button>
+
         <Link href='/register'>
           <Button type='submit' fullWidth variant='contained'>
             Sign up
           </Button>
         </Link>
+
+        {isLoggedIn && (
+          <>
+            <Alert sx={styles.alertSuccess} severity='success'>
+              {`Hello ${user?.email} you're logged in!`}
+            </Alert>
+            <Button
+              sx={styles.loginButton}
+              href='/shop'
+              fullWidth
+              variant='contained'>
+              Go to shop
+              <ShoppingCartIcon sx={styles.icon} />
+            </Button>
+          </>
+        )}
+
         {isError && (
           <Alert sx={styles.alert} severity='error'>
-            {data.message}
+            {data?.message}
+          </Alert>
+        )}
+        {loginError && (
+          <Alert sx={styles.alert} severity='error'>
+            {loginError}
           </Alert>
         )}
       </Box>

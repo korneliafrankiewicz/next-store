@@ -1,12 +1,8 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import ButtonElement from '../Button/Button';
-import { css } from '@emotion/css';
 
-const headerWrapper = css`
-  display: flex;
-  justify-content: space-between;
-`;
+const headerWrapper = { display: 'flex', justifyContent: 'space-between' };
 
 const subheader = {
   display: 'block',
@@ -16,12 +12,12 @@ const subheader = {
 const HomeHeader = () => {
   return (
     <>
-      <div className={headerWrapper}>
+      <div style={headerWrapper}>
         <div>
-          <Typography variant='h1'>Coffee</Typography>
-          <Typography variant='h1'>tables</Typography>
+          <Typography variant='h1'>Our</Typography>
+          <Typography variant='h1'>products</Typography>
           <Typography sx={subheader} variant='h5Italic'>
-            Handmade
+            Handmade furniture
           </Typography>
         </div>
         <ButtonElement />

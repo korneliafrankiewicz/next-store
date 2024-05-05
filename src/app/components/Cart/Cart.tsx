@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material/';
+import { Box, Button, Typography } from '@mui/material/';
 import { useCartStore } from '../../store/cart';
 import CartItem from '../CartItem/CartItem';
+import Link from 'next/link';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const styles = {
   productsWrapper: {
@@ -10,14 +12,25 @@ const styles = {
     gap: '20px',
     paddingTop: '30px',
   },
-  text: {
+  button: {
+    justifyContent: 'center',
     display: 'flex',
-    justifyContent: 'end',
+    alignSelf: 'center',
+  },
+  buttonLink: {
+    justifyContent: 'center',
+    display: 'flex',
+    textDecoration: 'none',
+    alignSelf: 'end',
+  },
+  text: {
+    fontSize: '14px',
+    paddingRight: '10px',
   },
 };
 
 const Cart = () => {
-  const { total, items } = useCartStore();
+  const { items, clearCart } = useCartStore();
 
   return (
     <Box sx={styles.productsWrapper}>
@@ -34,9 +47,13 @@ const Cart = () => {
           }}
         />
       ))}
-      <Typography sx={styles.text} variant='body3'>
-        Total: {total} zł
-      </Typography>
+      <Button style={styles.button} variant='outlined' onClick={clearCart}>
+        <Typography sx={styles.text}>Clear cart</Typography>
+        <DeleteIcon />
+      </Button>
+      <Link style={styles.buttonLink} href='/cart/order'>
+        <Button variant='contained'>Submit order</Button>
+      </Link>
     </Box>
   );
 };

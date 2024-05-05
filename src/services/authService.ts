@@ -1,8 +1,9 @@
-import useSWRMutation from 'swr/mutation';
+import useSWRMutation from 'swr/mutation'
 
 interface LoginData { 
   identifier: string;
   password: string;
+  user: string;
 }
 
 interface LoginResponse {
@@ -12,10 +13,13 @@ interface LoginResponse {
     username: string;
     email: string;
   };
+  status: number;
+  message: string;
 }
 interface LoginError {
   message: string;
   errorType?: 'password' | 'email' | 'empty' | null;
+  status?: number;
 }
 
  const login = async (url: string,
@@ -63,7 +67,10 @@ interface LoginError {
       );
     }
 
-    return response.json();
+    return {
+      data: await response.json(),
+      status: response.status,
+    };
 
   } catch (error: any) {
     let errorMessage: string = 'Login error';
