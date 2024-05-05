@@ -12,9 +12,6 @@ export const submitOrderService = async (orderData: OrderData) => {
   if (!response.ok) {
     throw new Error('Failed to submit order');
   }
-
-  console.log(orderData);
   await response.json(); 
-  console.log('Order submitted from service:', orderData);
   return orderData;
 }
