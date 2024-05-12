@@ -1,6 +1,6 @@
-import {OrderData} from '@/app/models/orderData';
+import {CartProduct} from '@/app/models/cartProduct';
 
-export const submitOrderService = async (orderData: OrderData) => {
+export const submitOrder = async (orderData: CartProduct) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/orders`, {
     method: 'POST',
     headers: {

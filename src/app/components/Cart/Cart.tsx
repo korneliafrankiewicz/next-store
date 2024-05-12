@@ -5,11 +5,17 @@ import { useUserStore } from '@/app/store/user';
 import CartItem from '../CartItem/CartItem';
 import Link from 'next/link';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { submitOrderService } from '@/services/submitOrderService';
+import { submitOrder } from '@/services/submitOrderService';
 import {
   useCartQuantity,
   useSingleProductQuantity,
 } from '@/app/store/hooks/useCart';
+import { ProductFromCMS } from '@/app/models/productFromCMS';
+import {
+  mapFromCMSProductToProduct,
+  mapFromCartProductToCMSProduct,
+  mapToCartProduct,
+} from '@/app/helpers';
 
 const styles = {
   productsWrapper: {
@@ -39,38 +45,21 @@ const Cart = () => {
   const { items, clearCart, total } = useCartStore();
   const { user } = useUserStore();
   const totalQuantity = useCartQuantity();
-  const products = items.map((item) => ({
-    attributes: {
-      Title: item.attributes.Title,
-      Description: item.attributes.Description,
-      Price: item.attributes.Price,
-      Amount: item.attributes.Amount,
-      Image: item.attributes.Image,
-    },
-  }));
+  const products = items.map((item) => mapFromCartProductToCMSProduct(item));
+  console.log(products);
 
-  const quantities = products.map((product) =>
-    useSingleProductQuantity({ product })
-  );
-
-  const submitOrder = async () => {
+  const processOrder = async () => {
     try {
       const orderData = {
-        method: 'POST',
         data: {
-          products: products.map((product, index) => ({
-            Title: product.attributes.Title,
-            Description: product.attributes.Description,
-            Price: product.attributes.Price,
-            Amount: quantities[index],
-          })),
-          TotalAmount: totalQuantity,
-          TotalPrice: total,
-          User: user?.email,
+          products: products,
+          totalAmount: totalQuantity,
+          totalPrice: total,
+          user: user?.email,
         },
       };
-
-      submitOrderService(orderData);
+      console.log(orderData);
+      submitOrder(orderData);
     } catch (error) {
       console.error(error);
     }
@@ -79,25 +68,14 @@ const Cart = () => {
   return (
     <Box sx={styles.productsWrapper}>
       {items.map((item) => (
-        <CartItem
-          key={item.attributes.Title}
-          product={{
-            attributes: {
-              Title: item.attributes.Title,
-              Image: item.attributes.Image,
-              Description: item.attributes.Description,
-              Price: item.attributes.Price,
-              Amount: item.attributes.Amount,
-            },
-          }}
-        />
+        <CartItem key={item.title} product={item} />
       ))}
       <Button style={styles.button} variant='outlined' onClick={clearCart}>
         <Typography sx={styles.text}>Clear cart</Typography>
         <DeleteIcon />
       </Button>
       <Link style={styles.buttonLink} href='/cart/order'>
-        <Button variant='contained' onClick={submitOrder}>
+        <Button variant='contained' onClick={processOrder}>
           Submit order
         </Button>
       </Link>

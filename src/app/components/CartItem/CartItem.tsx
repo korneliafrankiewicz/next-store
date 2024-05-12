@@ -13,6 +13,12 @@ import { useCartStore } from '../../store/cart';
 import { useSingleProductQuantity } from '@/app/store/hooks/useCart';
 import { Product } from '@/app/models/product';
 import { Theme } from '@mui/material/styles';
+import {
+  mapFromCMSProductToProduct,
+  mapToCMSProduct,
+  mapToCartProduct,
+} from '@/app/helpers';
+import { ProductFromCMS } from '@/app/models/productFromCMS';
 
 const Colors = {
   palette: {
@@ -56,27 +62,33 @@ const styles = {
 
 const CartItem = ({ product }: { product: Product }) => {
   const { items, removeFromCart } = useCartStore();
-  const singleProductQuantity = useSingleProductQuantity({ product });
+
+  const cartProduct = mapToCartProduct(
+    product,
+    product.amount,
+    product.price,
+    'user',
+    product.price
+  );
+  const singleProductQuantity = useSingleProductQuantity({
+    product: cartProduct,
+  });
 
   return (
     <ListItem sx={styles.productItem as SxProps<Theme>}>
       <ListItemAvatar>
-        <Avatar
-          sx={styles.image}
-          src={product.attributes.Image}
-          alt={product.attributes.Title}
-        />
+        <Avatar sx={styles.image} src={product.image} alt={product.title} />
       </ListItemAvatar>
       <Box sx={styles.productContent}>
-        <ListItemText primary={product.attributes.Title} />
-        <ListItemText secondary={product.attributes.Description} />
+        <ListItemText primary={product.title} />
+        <ListItemText secondary={product.description} />
       </Box>
       <ListItemText
         sx={styles.price}
-        primary={`${product.attributes.Price.toString()} zł`}
+        primary={`${product.price.toString()} zł`}
       />
       <ListItemText primary={`${singleProductQuantity}`} />
-      <IconButton onClick={() => removeFromCart(product.attributes.Title)}>
+      <IconButton onClick={() => removeFromCart(product.title)}>
         <DeleteIcon sx={styles.icon as SxProps<Theme>} />
       </IconButton>
     </ListItem>

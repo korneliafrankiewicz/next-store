@@ -11,6 +11,7 @@ import {
 import { useProducts } from '../../../services/productService';
 import { Product } from '../../../app/models/product';
 import Spinner from '../Spinner/Spinner';
+import { mapFromCMSProductToProduct } from '@/app/helpers';
 
 const Breakpoints = {
   values: {
@@ -37,27 +38,31 @@ const styles = {
 };
 
 const ActionCards = () => {
-  const { data: products, isLoading, isError } = useProducts();
+  const { data: productsFromCMS, isLoading, isError } = useProducts();
   if (isError) return <Typography variant='body3'>Failed to load</Typography>;
   if (isLoading) return <Spinner />;
 
+  const products = productsFromCMS?.data
+    .slice(0, 3)
+    .map(mapFromCMSProductToProduct);
+
   return (
     <Box sx={styles.cardWrapper}>
-      {products?.data.slice(0, 3).map((product: Product) => (
-        <Card sx={styles.card} key={product.attributes.Title}>
+      {products?.map((product: Product) => (
+        <Card sx={styles.card} key={product.title}>
           <CardActionArea>
             <CardMedia
               component='img'
               height='100'
-              src={product.attributes.Image}
+              src={product.image}
               alt='abc'
             />
             <CardContent>
               <Typography gutterBottom variant='h5' component='div'>
-                {product.attributes.Title}
+                {product.title}
               </Typography>
               <Typography variant='body2' color='text.secondary'>
-                {product.attributes.Description}
+                {product.description}
               </Typography>
             </CardContent>
           </CardActionArea>

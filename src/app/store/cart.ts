@@ -1,15 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Product } from '../models/product';
-
-type CartItem = Product & { quantity: number };
+import { CartProduct } from '../models/cartProduct';
 
 type CartStore = {
-  items: CartItem[];
+  items: CartProduct[];
   total: number;
-  TotalAmount: number; 
-  TotalPrice: number; 
-  addToCart: (product: Product) => void;
+  totalAmount: number;
+  totalPrice: number;
+  addToCart: (product: CartProduct) => void;
   removeFromCart: (productTitle: string) => void;
   clearCart: () => void;
 };
@@ -19,54 +17,54 @@ export const useCartStore = create<CartStore>()(
     (set) => ({
       items: [],
       total: 0,
-      TotalAmount: 0,
-      TotalPrice: 0,
-      addToCart: (product) =>
+      totalAmount: 0,
+      totalPrice: 0,
+      addToCart: (cmsProduct) =>
         set((state) => {
           const itemExists = state.items.find(
-            (item) => item.attributes.Title === product.attributes.Title
+            (item) => item.title === cmsProduct.title
           );
           if (itemExists) {
             return {
               ...state,
               items: state.items.map((item) =>
-                item.attributes.Title === product.attributes.Title
+                item.title === cmsProduct.title
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),
-              total: state.total + product.attributes.Price,
+              total: state.total + cmsProduct.totalPrice,
             };
           } else {
             return {
               ...state,
-              items: [...state.items, { ...product, quantity: 1 }],
-              total: state.total + product.attributes.Price,
+              items: [...state.items, { ...cmsProduct, quantity: 1 }],
+              total: state.total + cmsProduct.price,
             };
           }
         }),
         removeFromCart: (productTitle) =>
           set((state) => {
             const itemToRemove = state.items.find(
-              (item) => item.attributes.Title === productTitle
+              (item) => item.title === productTitle
             );
             if (!itemToRemove) return state;
             if (itemToRemove.quantity > 1) {
               return {
                 ...state,
                 items: state.items.map((item) =>
-                  item.attributes.Title === productTitle
+                  item.title === productTitle
                     ? { ...item, quantity: item.quantity - 1 }
                     : item
                 ),
-                total: state.total - itemToRemove.attributes.Price,
+                total: state.total - itemToRemove.price,
               };
             } else {
               return {
                 ...state,
                 items: state.items.filter(
-                  (item) => item.attributes.Title !== productTitle
+                  (item) => item.title !== productTitle
                 ),
-                total: state.total - itemToRemove.attributes.Price,
+                total: state.total - itemToRemove.price,
               };
             }
           }),

@@ -1,5 +1,5 @@
+import { CartProduct } from '@/app/models/cartProduct';
 import { useCartStore } from '../cart';
-import { Product } from '@/app/models/product';
 
 export const useCartQuantity = () => {
   const { items } = useCartStore();
@@ -9,11 +9,11 @@ export const useCartQuantity = () => {
   );
 };
 
-export const useSingleProductQuantity = ({ product }: { product: Product }) => {
+export const useSingleProductQuantity = ({ product }: { product: CartProduct }) => {
   const { items } = useCartStore();
+
   return items.filter(
-    (item) => item.attributes.Title === product.attributes.Title
+    (item) => item.title === product.title
   )[0].quantity;
-  
 }
 
