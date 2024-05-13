@@ -6,16 +6,8 @@ import CartItem from '../CartItem/CartItem';
 import Link from 'next/link';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { submitOrder } from '@/services/submitOrderService';
-import {
-  useCartQuantity,
-  useSingleProductQuantity,
-} from '@/app/store/hooks/useCart';
-import { ProductFromCMS } from '@/app/models/productFromCMS';
-import {
-  mapFromCMSProductToProduct,
-  mapFromCartProductToCMSProduct,
-  mapToCartProduct,
-} from '@/app/helpers';
+import { useCartQuantity } from '@/app/store/hooks/useCart';
+import { mapFromCartProductToCMSProduct } from '@/app/helpers';
 
 const styles = {
   productsWrapper: {
@@ -46,20 +38,19 @@ const Cart = () => {
   const { user } = useUserStore();
   const totalQuantity = useCartQuantity();
   const products = items.map((item) => mapFromCartProductToCMSProduct(item));
-  console.log(products);
 
   const processOrder = async () => {
     try {
       const orderData = {
         data: {
-          products: products,
+          products,
           totalAmount: totalQuantity,
           totalPrice: total,
           user: user?.email,
         },
       };
-      console.log(orderData);
       submitOrder(orderData);
+      clearCart();
     } catch (error) {
       console.error(error);
     }

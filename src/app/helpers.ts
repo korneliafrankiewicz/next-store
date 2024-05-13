@@ -2,12 +2,12 @@ import { CartProduct } from './models/cartProduct';
 import { Product } from './models/product';
 import { ProductFromCMS } from './models/productFromCMS';
 
-export const mapToCartProduct = (product: Product, quantity: number, totalAmount: number, user: string, totalPrice: number): CartProduct => ({
+export const mapToCartProduct = (product: Product, quantity: number, user: string, totalPrice: number): CartProduct => ({
   ...product,
   quantity,
-  totalAmount,
   user,
   totalPrice,
+  itemPrice: product.price
 });
 
 export const mapToCMSProduct = ({ title, image, description, price, amount }: Product): ProductFromCMS => ({

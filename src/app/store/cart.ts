@@ -6,7 +6,8 @@ type CartStore = {
   items: CartProduct[];
   total: number;
   totalAmount: number;
-  totalPrice: number;
+  price: number;
+  totalPriceForSingleProduct: (product: CartProduct) => void;
   addToCart: (product: CartProduct) => void;
   removeFromCart: (productTitle: string) => void;
   clearCart: () => void;
@@ -18,7 +19,7 @@ export const useCartStore = create<CartStore>()(
       items: [],
       total: 0,
       totalAmount: 0,
-      totalPrice: 0,
+      price: 0,
       addToCart: (cmsProduct) =>
         set((state) => {
           const itemExists = state.items.find(
@@ -32,7 +33,7 @@ export const useCartStore = create<CartStore>()(
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),
-              total: state.total + cmsProduct.totalPrice,
+              total: state.total + cmsProduct.price,
             };
           } else {
             return {
@@ -68,6 +69,9 @@ export const useCartStore = create<CartStore>()(
               };
             }
           }),
+          totalPriceForSingleProduct(product: CartProduct): number {
+            return product.price * product.quantity;
+        },
           clearCart: () => set({ items: [], total: 0 })
     }),
     {

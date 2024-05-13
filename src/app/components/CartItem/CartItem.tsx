@@ -11,14 +11,9 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useCartStore } from '../../store/cart';
 import { useSingleProductQuantity } from '@/app/store/hooks/useCart';
-import { Product } from '@/app/models/product';
 import { Theme } from '@mui/material/styles';
-import {
-  mapFromCMSProductToProduct,
-  mapToCMSProduct,
-  mapToCartProduct,
-} from '@/app/helpers';
-import { ProductFromCMS } from '@/app/models/productFromCMS';
+import { mapToCartProduct } from '@/app/helpers';
+import { CartProduct } from '@/app/models/cartProduct';
 
 const Colors = {
   palette: {
@@ -60,18 +55,16 @@ const styles = {
   },
 };
 
-const CartItem = ({ product }: { product: Product }) => {
-  const { items, removeFromCart } = useCartStore();
+const CartItem = ({ product }: { product: CartProduct }) => {
+  const { removeFromCart } = useCartStore();
 
-  const cartProduct = mapToCartProduct(
-    product,
-    product.amount,
-    product.price,
-    'user',
-    product.price
-  );
   const singleProductQuantity = useSingleProductQuantity({
-    product: cartProduct,
+    product: mapToCartProduct(
+      product,
+      product.quantity,
+      product.user,
+      product.totalPrice
+    ),
   });
 
   return (

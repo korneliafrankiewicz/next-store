@@ -51,12 +51,12 @@ const styles = {
 };
 
 const ProductItem = ({ product }: { product: ProductFromCMS }) => {
-  const { addToCart } = useCartStore();
+  const { addToCart }: { addToCart: Function } = useCartStore();
   const productForComponent = mapFromCMSProductToProduct(product);
 
   let cartProduct = {
     ...productForComponent,
-    quantity: 1,
+    amount: productForComponent.amount,
     user: 'username',
     totalPrice: productForComponent.price,
   };
