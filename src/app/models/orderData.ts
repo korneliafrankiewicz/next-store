@@ -1,5 +1,4 @@
 export type OrderData = {
-  method: string;
   data: {
       Title: string;
       Description: string;
@@ -9,5 +8,4 @@ export type OrderData = {
     TotalAmount: number;
     TotalPrice: number;
     User: string | 'defaultUser';
-
 };

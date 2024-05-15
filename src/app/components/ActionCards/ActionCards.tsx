@@ -8,10 +8,9 @@ import {
   Box,
   Theme,
 } from '@mui/material';
-import { useProducts } from '../../../services/productService';
+import { useProductsForActionCards } from '../../../services/productService';
 import { Product } from '../../../app/models/product';
 import Spinner from '../Spinner/Spinner';
-import { mapFromCMSProductToProduct } from '@/app/helpers';
 
 const Breakpoints = {
   values: {
@@ -38,13 +37,9 @@ const styles = {
 };
 
 const ActionCards = () => {
-  const { data: productsFromCMS, isLoading, isError } = useProducts();
+  const { products, isLoading, isError } = useProductsForActionCards(3);
   if (isError) return <Typography variant='body3'>Failed to load</Typography>;
   if (isLoading) return <Spinner />;
-
-  const products = productsFromCMS?.data
-    .slice(0, 3)
-    .map(mapFromCMSProductToProduct);
 
   return (
     <Box sx={styles.cardWrapper}>

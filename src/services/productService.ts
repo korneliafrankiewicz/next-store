@@ -1,3 +1,4 @@
+import { mapFromCMSProductToProduct } from '@/app/helpers';
 import useSWR from 'swr';
 
 const fetcher = async (url: string) => {
@@ -18,4 +19,18 @@ export const useProducts = () => {
   return { data,
     isLoading: !error && !data,
     isError: error,};
+};
+
+export const useProductsForActionCards = (productCount: number) => {
+  const { data, isLoading, isError } = useProducts();
+
+  const products = data?.data
+    .slice(0, productCount)
+    .map(mapFromCMSProductToProduct);
+
+  return {
+    products,
+    isLoading,
+    isError,
+  };
 };

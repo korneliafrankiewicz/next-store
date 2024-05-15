@@ -7,7 +7,6 @@ import Link from 'next/link';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { submitOrder } from '@/services/submitOrderService';
 import { useCartQuantity } from '@/app/store/hooks/useCart';
-import { mapFromCartProductToCMSProduct } from '@/app/helpers';
 
 const styles = {
   productsWrapper: {
@@ -37,19 +36,10 @@ const Cart = () => {
   const { items, clearCart, total } = useCartStore();
   const { user } = useUserStore();
   const totalQuantity = useCartQuantity();
-  const products = items.map((item) => mapFromCartProductToCMSProduct(item));
 
   const processOrder = async () => {
     try {
-      const orderData = {
-        data: {
-          products,
-          totalAmount: totalQuantity,
-          totalPrice: total,
-          user: user?.email,
-        },
-      };
-      submitOrder(orderData);
+      await submitOrder(items, user, totalQuantity, total);
       clearCart();
     } catch (error) {
       console.error(error);
