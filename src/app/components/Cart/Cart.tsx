@@ -36,7 +36,6 @@ const Cart = () => {
   const { items, clearCart, total } = useCartStore();
   const { user } = useUserStore();
   const totalQuantity = useCartQuantity(items);
-  console.log('items from cart', items);
 
   const processOrder = async () => {
     try {

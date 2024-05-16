@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { CartProduct } from '../models/cartProduct';
+import { mapFromCartProductToCMSProduct } from '../helpers';
 
 type CartStore = {
   items: CartProduct[];
@@ -22,14 +23,15 @@ export const useCartStore = create<CartStore>()(
       price: 0,
       addToCart: (cartProduct) =>
         set((state) => {
+          const cmsProduct = mapFromCartProductToCMSProduct(cartProduct);
           const itemExists = state.items.find(
-            (item) => item.id === cartProduct.id
+            (item) => item.id === cmsProduct.id
           );
           if (itemExists) {
             return {
               ...state,
               items: state.items.map((item) =>
-                item.id === cartProduct.id
+                item.id === cmsProduct.id
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),

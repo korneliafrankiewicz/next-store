@@ -57,7 +57,6 @@ const styles = {
 const CartItem = ({ product }: { product: CartProduct }) => {
   const { removeFromCart } = useCartStore();
   const singleProductQuantity = useSingleProductQuantity(product);
-  console.log(product.id);
 
   return (
     <ListItem sx={styles.productItem as SxProps<Theme>}>

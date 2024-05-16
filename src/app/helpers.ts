@@ -11,8 +11,8 @@ export const mapToCartProduct = (product: Product, quantity: number, user: strin
 });
 
 export const mapToCMSProduct = ({ id, title, image, description, price, amount }: Product): ProductFromCMS => ({
+  id: id,
   attributes: {
-    Id: id,
     Title: title,
     Image: image,
     Description: description,
@@ -21,18 +21,18 @@ export const mapToCMSProduct = ({ id, title, image, description, price, amount }
   },
 });
 
-export const mapFromCMSProductToProduct = ({ attributes: { Title, Image, Description, Price, Amount, Id } }: ProductFromCMS): Product => ({
+export const mapFromCMSProductToProduct = ({ id, attributes: { Title, Image, Description, Price, Amount } }: ProductFromCMS): Product => ({
   title: Title,
   image: Image,
   description: Description,
   price: Price,
   amount: Amount,
-  id: Id
+  id: id
 });
 
 export const mapFromCartProductToCMSProduct = ({ id, title, image, description, price, amount }: CartProduct): ProductFromCMS => ({
+  id: id,
   attributes: {
-    Id: id,
     Title: title,
     Image: image,
     Description: description,
