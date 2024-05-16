@@ -35,7 +35,8 @@ const styles = {
 const Cart = () => {
   const { items, clearCart, total } = useCartStore();
   const { user } = useUserStore();
-  const totalQuantity = useCartQuantity();
+  const totalQuantity = useCartQuantity(items);
+  console.log('items from cart', items);
 
   const processOrder = async () => {
     try {
@@ -49,7 +50,7 @@ const Cart = () => {
   return (
     <Box sx={styles.productsWrapper}>
       {items.map((item) => (
-        <CartItem key={item.title} product={item} />
+        <CartItem key={item.id} product={item} />
       ))}
       <Button style={styles.button} variant='outlined' onClick={clearCart}>
         <Typography sx={styles.text}>Clear cart</Typography>

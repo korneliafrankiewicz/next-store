@@ -56,8 +56,8 @@ const styles = {
 };
 
 const Header = () => {
-  const quantity = useCartQuantity();
-  const { total } = useCartStore();
+  const { total, items } = useCartStore();
+  const quantity = useCartQuantity(items);
   const { user, isLoggedIn } = useUserStore();
   const handleLogout = () => {
     logout();

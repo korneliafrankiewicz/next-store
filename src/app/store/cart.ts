@@ -9,7 +9,7 @@ type CartStore = {
   price: number;
   totalPriceForSingleProduct: (product: CartProduct) => void;
   addToCart: (product: CartProduct) => void;
-  removeFromCart: (productTitle: string) => void;
+  removeFromCart: (productId: number) => void;
   clearCart: () => void;
 };
 
@@ -20,59 +20,59 @@ export const useCartStore = create<CartStore>()(
       total: 0,
       totalAmount: 0,
       price: 0,
-      addToCart: (cmsProduct) =>
+      addToCart: (cartProduct) =>
         set((state) => {
           const itemExists = state.items.find(
-            (item) => item.title === cmsProduct.title
+            (item) => item.id === cartProduct.id
           );
           if (itemExists) {
             return {
               ...state,
               items: state.items.map((item) =>
-                item.title === cmsProduct.title
+                item.id === cartProduct.id
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),
-              total: state.total + cmsProduct.price,
+              total: state.total + cartProduct.price,
             };
           } else {
             return {
               ...state,
-              items: [...state.items, { ...cmsProduct, quantity: 1 }],
-              total: state.total + cmsProduct.price,
+              items: [...state.items, { ...cartProduct, quantity: 1 }],
+              total: state.total + cartProduct.price,
             };
           }
         }),
-        removeFromCart: (productTitle) =>
-          set((state) => {
-            const itemToRemove = state.items.find(
-              (item) => item.title === productTitle
-            );
-            if (!itemToRemove) return state;
-            if (itemToRemove.quantity > 1) {
-              return {
-                ...state,
-                items: state.items.map((item) =>
-                  item.title === productTitle
-                    ? { ...item, quantity: item.quantity - 1 }
-                    : item
-                ),
-                total: state.total - itemToRemove.price,
-              };
-            } else {
-              return {
-                ...state,
-                items: state.items.filter(
-                  (item) => item.title !== productTitle
-                ),
-                total: state.total - itemToRemove.price,
-              };
-            }
-          }),
-          totalPriceForSingleProduct(product: CartProduct): number {
-            return product.price * product.quantity;
-        },
-          clearCart: () => set({ items: [], total: 0 })
+      removeFromCart: (productId) =>
+        set((state) => {
+          const itemToRemove = state.items.find(
+            (item) => item.id === productId
+          );
+          if (!itemToRemove) return state;
+          if (itemToRemove.quantity > 1) {
+            return {
+              ...state,
+              items: state.items.map((item) =>
+              item.id === productId
+                  ? { ...item, quantity: item.quantity - 1 }
+                  : item
+              ),
+              total: state.total - itemToRemove.price,
+            };
+          } else {
+            return {
+              ...state,
+              items: state.items.filter(
+                (item) => item.id !== productId
+              ),
+              total: state.total -itemToRemove.price,
+            };
+          }
+        }),
+      totalPriceForSingleProduct: (product: CartProduct) => {
+        return product.price * product.quantity;
+      },
+      clearCart: () => set({ items: [], total: 0 })
     }),
     {
       name: 'cart-storage',

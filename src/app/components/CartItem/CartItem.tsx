@@ -12,7 +12,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useCartStore } from '../../store/cart';
 import { useSingleProductQuantity } from '@/app/store/hooks/useCart';
 import { Theme } from '@mui/material/styles';
-import { mapToCartProduct } from '@/app/helpers';
 import { CartProduct } from '@/app/models/cartProduct';
 
 const Colors = {
@@ -57,15 +56,8 @@ const styles = {
 
 const CartItem = ({ product }: { product: CartProduct }) => {
   const { removeFromCart } = useCartStore();
-
-  const singleProductQuantity = useSingleProductQuantity({
-    product: mapToCartProduct(
-      product,
-      product.quantity,
-      product.user,
-      product.totalPrice
-    ),
-  });
+  const singleProductQuantity = useSingleProductQuantity(product);
+  console.log(product.id);
 
   return (
     <ListItem sx={styles.productItem as SxProps<Theme>}>
@@ -81,7 +73,7 @@ const CartItem = ({ product }: { product: CartProduct }) => {
         primary={`${product.price.toString()} zł`}
       />
       <ListItemText primary={`${singleProductQuantity}`} />
-      <IconButton onClick={() => removeFromCart(product.title)}>
+      <IconButton onClick={() => removeFromCart(product.id)}>
         <DeleteIcon sx={styles.icon as SxProps<Theme>} />
       </IconButton>
     </ListItem>
