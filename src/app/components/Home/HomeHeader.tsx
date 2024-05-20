@@ -2,11 +2,16 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import ButtonElement from '../Button/Button';
 
-const headerWrapper = { display: 'flex', justifyContent: 'space-between' };
+const headerWrapper = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexDirection: 'column',
+  maxWidth: 'fit-content',
+  paddingRight: '30px',
+};
 
 const subheader = {
   display: 'block',
-  textAlign: 'right',
 };
 
 const HomeHeader = () => {

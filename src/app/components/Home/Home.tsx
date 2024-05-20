@@ -19,14 +19,18 @@ type MyTheme = typeof ThemeValues & Theme;
 const mainBox = (theme: MyTheme) => ({
   backgroundColor: `${theme.palette.BEIGE}`,
   position: 'absolute',
-  top: '520px',
+  top: '350px',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   padding: '30px',
   borderRadius: '12px',
   width: '80%',
+  display: 'flex',
+  flexDirection: 'column',
   [`@media screen and (min-width: ${theme.breakpoints.values.md})`]: {
     top: '350px',
+    flexDirection: 'row',
+    width: 'auto',
   },
 });
 

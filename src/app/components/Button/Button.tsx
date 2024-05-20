@@ -6,8 +6,8 @@ import Link from 'next/link';
 const styles = {
   button: {
     alignSelf: 'start',
-    marginLeft: '40px',
     opacity: '90%',
+    margin: '15px 0',
   },
 
   icon: {

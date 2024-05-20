@@ -12,7 +12,6 @@ const styles = {
   productsWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px',
     paddingTop: '30px',
   },
   button: {
