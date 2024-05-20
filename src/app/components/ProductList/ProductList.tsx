@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import { useProducts } from '../../../services/service';
-import { Product } from '@/app/models/product';
+import { useProducts } from '../../../services/productService';
+import { ProductFromCMS } from '@/app/models/productFromCMS';
 import ProductItem from '../ProductIem/ProductItem';
 import Spinner from '../Spinner/Spinner';
 
@@ -24,7 +24,7 @@ const ProductList = () => {
 
   return (
     <Box sx={styles.productsWrapper}>
-      {products.data.map((product: Product, index: number) => (
+      {products.data.map((product: ProductFromCMS, index: number) => (
         <ProductItem key={index} product={product} />
       ))}
     </Box>

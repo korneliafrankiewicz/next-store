@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Link from 'next/link';
 import { Button, SxProps, Typography } from '@mui/material';
-import { useCartQuantity } from '../../store/hooks/useCartQuantity';
+import { useCartQuantity } from '../../store/hooks/useCart';
 import { Theme } from '@mui/material/styles';
 import { useCartStore } from '@/app/store/cart';
 import { useUserStore } from '@/app/store/user';
@@ -56,8 +56,8 @@ const styles = {
 };
 
 const Header = () => {
-  const quantity = useCartQuantity();
-  const { total } = useCartStore();
+  const { total, items } = useCartStore();
+  const quantity = useCartQuantity(items);
   const { user, isLoggedIn } = useUserStore();
   const handleLogout = () => {
     logout();

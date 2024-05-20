@@ -10,8 +10,9 @@ import {
 } from '@mui/material/';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useCartStore } from '../../store/cart';
-import { Product } from '@/app/models/product';
+import { useSingleProductQuantity } from '@/app/store/hooks/useCart';
 import { Theme } from '@mui/material/styles';
+import { CartProduct } from '@/app/models/cartProduct';
 
 const Colors = {
   palette: {
@@ -53,31 +54,25 @@ const styles = {
   },
 };
 
-const CartItem = ({ product }: { product: Product }) => {
-  const { items, removeFromCart } = useCartStore();
-  const quantity = items.filter(
-    (item) => item.attributes.Title === product.attributes.Title
-  )[0].quantity;
+const CartItem = ({ product }: { product: CartProduct }) => {
+  const { removeFromCart } = useCartStore();
+  const singleProductQuantity = useSingleProductQuantity(product);
 
   return (
     <ListItem sx={styles.productItem as SxProps<Theme>}>
       <ListItemAvatar>
-        <Avatar
-          sx={styles.image}
-          src={product.attributes.Image}
-          alt={product.attributes.Title}
-        />
+        <Avatar sx={styles.image} src={product.image} alt={product.title} />
       </ListItemAvatar>
       <Box sx={styles.productContent}>
-        <ListItemText primary={product.attributes.Title} />
-        <ListItemText secondary={product.attributes.Description} />
+        <ListItemText primary={product.title} />
+        <ListItemText secondary={product.description} />
       </Box>
       <ListItemText
         sx={styles.price}
-        primary={`${product.attributes.Price.toString()} zł`}
+        primary={`${product.price.toString()} zł`}
       />
-      <ListItemText primary={`${quantity}`} />
-      <IconButton onClick={() => removeFromCart(product.attributes.Title)}>
+      <ListItemText primary={`${singleProductQuantity}`} />
+      <IconButton onClick={() => removeFromCart(product.id)}>
         <DeleteIcon sx={styles.icon as SxProps<Theme>} />
       </IconButton>
     </ListItem>

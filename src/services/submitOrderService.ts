@@ -1,24 +1,29 @@
-import useSWR, { mutate } from 'swr';
+import { CartProduct } from '@/app/models/cartProduct';
+import { mapFromCartProductToCMSProduct } from '@/app/helpers';
 
-const submitOrder = async (cartItems: any) => {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/order`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(cartItems),
-    });
+export const submitOrder = async (cartProducts: CartProduct[], user: any, totalQuantity: number, total: number) => {
+  const products = cartProducts.map((item) => mapFromCartProductToCMSProduct(item));
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
+  const orderData = {
+    data: {
+      products,
+      totalAmount: totalQuantity,
+      totalPrice: total,
+      user: user?.email,
+    },
+  };
 
-    const jsonResponse = await response.json();
-    console.log('Order saved successfully:', jsonResponse);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/orders`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(orderData),
+  });
 
-    mutate(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/order`, jsonResponse, false);
-  } catch (error) {
-    console.error('There has been a problem with your fetch operation:', error);
+  if (!response.ok) {
+    throw new Error('Failed to submit order');
   }
-};
+  await response.json(); 
+  return orderData;
+}

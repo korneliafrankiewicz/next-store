@@ -1,6 +1,5 @@
 import React from 'react';
-import { Product } from '@/app/models/product';
-import { AddShoppingCart } from '@mui/icons-material';
+import { AddShoppingCart, Map } from '@mui/icons-material';
 import {
   ListItem,
   ListItemAvatar,
@@ -12,6 +11,8 @@ import {
   Theme,
 } from '@mui/material';
 import { useCartStore } from '../../store/cart';
+import { mapFromCMSProductToProduct } from '@/app/helpers';
+import { ProductFromCMS } from '@/app/models/productFromCMS';
 
 const Colors = {
   palette: {
@@ -49,27 +50,35 @@ const styles = {
   }),
 };
 
-const ProductItem = ({ product }: { product: Product }) => {
-  const { addToCart } = useCartStore();
+const ProductItem = ({ product }: { product: ProductFromCMS }) => {
+  const { addToCart }: { addToCart: Function } = useCartStore();
+  const productForComponent = mapFromCMSProductToProduct(product);
+
+  let cartProduct = {
+    ...productForComponent,
+    amount: productForComponent.amount,
+    user: 'username',
+    totalPrice: productForComponent.price,
+  };
 
   return (
     <ListItem sx={styles.productItem as SxProps<Theme>}>
       <ListItemAvatar>
         <Avatar
           sx={styles.image}
-          src={product.attributes.Image}
-          alt={product.attributes.Title}
+          src={productForComponent.image}
+          alt={productForComponent.title}
         />
       </ListItemAvatar>
       <Box sx={styles.productContent}>
-        <ListItemText primary={product.attributes.Title} />
-        <ListItemText secondary={product.attributes.Description} />
+        <ListItemText primary={productForComponent.title} />
+        <ListItemText secondary={productForComponent.description} />
       </Box>
       <ListItemText
         sx={styles.price}
-        primary={`${product.attributes.Price.toString()} zł`}
+        primary={`${productForComponent.price.toString()} zł`}
       />
-      <IconButton onClick={() => addToCart(product)}>
+      <IconButton onClick={() => addToCart(cartProduct)}>
         <AddShoppingCart sx={styles.icon as SxProps<Theme>} />
       </IconButton>
     </ListItem>

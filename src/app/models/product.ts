@@ -1,8 +1,8 @@
 export type Product = {
-  attributes: {
-    Title: string;
-    Image: string;
-    Description: string;
-    Price: number;
+    id: number;
+    title: string;
+    image: string;
+    description: string;
+    price: number;
+    amount: number
   };
-};
