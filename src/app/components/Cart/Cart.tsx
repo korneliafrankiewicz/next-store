@@ -13,6 +13,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     paddingTop: '30px',
+    gap: '20px',
   },
   button: {
     justifyContent: 'center',
