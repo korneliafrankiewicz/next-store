@@ -4,11 +4,11 @@ import theme from '../../../theme/theme';
 import type { NextPage } from 'next';
 import BaseLayout from '../../components/BaseLayout/BaseLayout';
 import ProductDetails from '../../components/ProductDetails/ProductDetails';
-import { CartProduct } from '@/app/models/cartProduct';
+import { useParams } from 'next/navigation';
 
 const Colors = {
   palette: {
-    BEIGE: '#D7AC85',
+    LIGHT: '#FAF0E1',
   },
 };
 
@@ -16,18 +16,15 @@ type MyTheme = typeof Colors & Theme;
 
 const styles = {
   main: (theme: MyTheme) => ({
-    backgroundColor: `${theme.palette.BEIGE}`,
+    backgroundColor: `${theme.palette.LIGHT}`,
     minHeight: '100vh',
   }),
 };
 
-type ProductProps = {
-  product: CartProduct;
-  id: number;
-};
+const Product: NextPage = () => {
+  const params = useParams();
+  const id = parseInt(params.id as string, 10);
 
-const Product: NextPage<ProductProps> = ({ id }) => {
-  console.log(id);
   return (
     <ThemeProvider theme={theme}>
       <Box sx={styles.main as SxProps<Theme>}>

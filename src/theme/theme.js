@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 import { colors } from './_colors';
 import { breakpoints } from './_breakpoints';
-import { roboto, lato } from './_fonts';
+import { lato } from './_fonts';
 
 const theme = createTheme({
   breakpoints: breakpoints,
@@ -29,6 +29,17 @@ const theme = createTheme({
               backgroundColor: colors.DARK_BROWN,
               borderColor: colors.DARK_BROWN,
               color: colors.WHITE
+            },
+          },
+        },
+        {
+          props: { variant: 'productItem' },
+          style: {
+            backgroundColor: colors.WHITE,
+            color: colors.LIGHT_BROWN,
+            '&:hover': {
+              backgroundColor: colors.LIGHT,
+              color: colors.DARK_BROWN
             },
           },
         },

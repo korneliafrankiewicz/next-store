@@ -1,5 +1,5 @@
 import React from 'react';
-import { AddShoppingCart, Map } from '@mui/icons-material';
+import { AddShoppingCart } from '@mui/icons-material';
 import {
   ListItem,
   ListItemAvatar,
@@ -34,15 +34,25 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     paddingLeft: '30px',
-    maxWidth: '60%',
+    textAlign: 'left',
+  },
+  title: (theme: MyTheme) => ({
+    color: `${theme.palette.DARK_BROWN}`,
+  }),
+  description: (theme: MyTheme) => ({
+    textTransform: 'lowercase',
+  }),
+  wrapper: {
     width: '60%',
   },
-
   price: {
     display: 'flex',
     justifyContent: 'center',
   },
-
+  button: {
+    width: '100%',
+    justifyContent: 'flex-start',
+  },
   image: {
     width: '80px',
     height: '80px',
@@ -65,9 +75,9 @@ const ProductItem = ({ product }: { product: ProductFromCMS }) => {
 
   return (
     <ListItem sx={styles.productItem as SxProps<Theme>}>
-      <Box>
+      <Box sx={styles.wrapper}>
         <Link href={`/product/${product.id}`}>
-          <Button>
+          <Button sx={styles.button} variant='productItem'>
             <ListItemAvatar>
               <Avatar
                 sx={styles.image}
@@ -76,8 +86,14 @@ const ProductItem = ({ product }: { product: ProductFromCMS }) => {
               />
             </ListItemAvatar>
             <Box sx={styles.productContent}>
-              <ListItemText primary={productForComponent.title} />
-              <ListItemText secondary={productForComponent.description} />
+              <ListItemText
+                sx={styles.title as SxProps<Theme>}
+                primary={productForComponent.title}
+              />
+              <ListItemText
+                sx={styles.description as SxProps<Theme>}
+                secondary={productForComponent.description}
+              />
             </Box>
           </Button>
         </Link>
