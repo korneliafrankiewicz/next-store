@@ -37,7 +37,7 @@ const FilterProducts = ({
 }: {
   setFilterCriteria: (criteria: string) => void;
 }) => {
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<string>('');
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     const newValue = event.target.value;
@@ -52,7 +52,7 @@ const FilterProducts = ({
         data-testid='filter-products'
         labelId='filter-label'
         id='filter-select'
-        value={value as string | undefined}
+        value={value}
         onChange={handleChange}>
         <MenuItem value={'asc'}>Price: Low to High</MenuItem>
         <MenuItem value={'desc'}>Price: High to Low</MenuItem>

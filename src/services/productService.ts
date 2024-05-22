@@ -21,6 +21,19 @@ export const useProducts = () => {
     isError: error,};
 };
 
+export const useProductById = (id: number) => {
+  const { data, error } = useSWR(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${id}`,
+    fetcher
+  );
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
+
 export const useProductsForActionCards = (productCount: number) => {
   const { data, isLoading, isError } = useProducts();
 

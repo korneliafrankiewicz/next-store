@@ -5,6 +5,7 @@ import {
   ListItemAvatar,
   Avatar,
   Box,
+  Button,
   ListItemText,
   IconButton,
   SxProps,
@@ -13,6 +14,7 @@ import {
 import { useCartStore } from '../../store/cart';
 import { mapFromCMSProductToProduct } from '@/app/helpers';
 import { ProductFromCMS } from '@/app/models/productFromCMS';
+import Link from 'next/link';
 
 const Colors = {
   palette: {
@@ -63,21 +65,28 @@ const ProductItem = ({ product }: { product: ProductFromCMS }) => {
 
   return (
     <ListItem sx={styles.productItem as SxProps<Theme>}>
-      <ListItemAvatar>
-        <Avatar
-          sx={styles.image}
-          src={productForComponent.image}
-          alt={productForComponent.title}
-        />
-      </ListItemAvatar>
-      <Box sx={styles.productContent}>
-        <ListItemText primary={productForComponent.title} />
-        <ListItemText secondary={productForComponent.description} />
+      <Box>
+        <Link href={`/product/${product.id}`}>
+          <Button>
+            <ListItemAvatar>
+              <Avatar
+                sx={styles.image}
+                src={productForComponent.image}
+                alt={productForComponent.title}
+              />
+            </ListItemAvatar>
+            <Box sx={styles.productContent}>
+              <ListItemText primary={productForComponent.title} />
+              <ListItemText secondary={productForComponent.description} />
+            </Box>
+          </Button>
+        </Link>
       </Box>
       <ListItemText
         sx={styles.price}
         primary={`${productForComponent.price.toString()} zł`}
       />
+
       <IconButton onClick={() => addToCart(cartProduct)}>
         <AddShoppingCart sx={styles.icon as SxProps<Theme>} />
       </IconButton>
