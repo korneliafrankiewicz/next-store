@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Menu,
@@ -8,6 +8,8 @@ import {
   Box,
 } from '@mui/material';
 import { ExpandMore, ExpandLess, Sort } from '@mui/icons-material';
+import { useProducts } from '@/services/productService';
+import { mapFromCMSProductToProduct } from '@/app/helpers';
 
 const ThemeValues = {
   values: {
@@ -47,6 +49,22 @@ const FilterProducts = ({
 }: {
   setFilterCriteria: (criteria: string) => void;
 }) => {
+  const { data: products } = useProducts();
+  const mappedProducts = products.data.map(mapFromCMSProductToProduct);
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    const uniqueCategories = mappedProducts.reduce(
+      (categories: string[], product: { category: string }) => {
+        return categories.includes(product.category)
+          ? categories
+          : [...categories, product.category];
+      },
+      []
+    );
+    setCategories(uniqueCategories);
+  }, [mappedProducts]);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState<null | HTMLElement>(
     null
@@ -100,8 +118,11 @@ const FilterProducts = ({
           anchorEl={subMenuAnchorEl}
           open={Boolean(subMenuAnchorEl)}
           onClose={handleClose}>
-          <MenuItem onClick={() => handleSelect('decor')}>Decor</MenuItem>
-          <MenuItem onClick={() => handleSelect('storage')}>Storage</MenuItem>
+          {categories.map((category) => (
+            <MenuItem key={category} onClick={() => handleSelect(category)}>
+              {category}
+            </MenuItem>
+          ))}
         </Menu>
       </Menu>
     </Box>
