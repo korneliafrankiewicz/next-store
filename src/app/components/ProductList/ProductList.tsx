@@ -34,6 +34,10 @@ const ProductList = () => {
     filteredProducts.sort((a, b) => a.price - b.price);
   } else if (filterCriteria === 'desc') {
     filteredProducts.sort((a, b) => b.price - a.price);
+  } else if (filterCriteria) {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.category === filterCriteria
+    );
   }
 
   const remappedProducts = filteredProducts.map(mapToCMSProduct);

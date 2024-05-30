@@ -102,6 +102,7 @@ const ProductItem = ({ product }: { product: ProductFromCMS }) => {
         sx={styles.price}
         primary={`${productForComponent.price.toString()} zł`}
       />
+      <ListItemText secondary={productForComponent.category} />
 
       <IconButton onClick={() => addToCart(cartProduct)}>
         <AddShoppingCart sx={styles.icon as SxProps<Theme>} />

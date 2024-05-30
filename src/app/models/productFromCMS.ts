@@ -5,6 +5,7 @@ export type ProductFromCMS = {
     Description: string;
     Price: number;
     Amount: number;
+    Category: string;
   };
   id: number;
 };

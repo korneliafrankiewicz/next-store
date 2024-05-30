@@ -1,17 +1,17 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import {
-  Select,
+  Button,
+  Menu,
   MenuItem,
-  FormControl,
-  InputLabel,
-  SelectChangeEvent,
+  ListItemIcon,
   Theme,
+  Box,
 } from '@mui/material';
-import { useState } from 'react';
+import { ExpandMore, ExpandLess, Sort } from '@mui/icons-material';
 
 const ThemeValues = {
   values: {
-    md: '992px',
+    sm: '768px',
   },
   palette: {
     BEIGE: '#D7AC85',
@@ -22,14 +22,24 @@ const ThemeValues = {
 type MyTheme = typeof ThemeValues & Theme;
 
 const styles = {
-  selectWrapper: (theme: MyTheme) => ({
+  selectWrapper: {
+    display: 'flex',
+    justifyContent: 'end',
+  },
+  selectMenu: (theme: MyTheme) => ({
     width: '100%',
-    [`@media screen and (min-width: ${theme.breakpoints.values.md})`]: {
+    [`@media screen and (min-width: ${theme.breakpoints.values.sm})`]: {
       width: '200px',
       display: 'flex',
-      alignSelf: 'end',
     },
   }),
+  icon: {
+    paddingRight: '10px',
+  },
+  menuWithIcon: {
+    display: ' flex',
+    justifyContent: 'space-between',
+  },
 };
 
 const FilterProducts = ({
@@ -37,27 +47,64 @@ const FilterProducts = ({
 }: {
   setFilterCriteria: (criteria: string) => void;
 }) => {
-  const [value, setValue] = useState<string>('');
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [subMenuAnchorEl, setSubMenuAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    const newValue = event.target.value;
-    setValue(newValue);
-    setFilterCriteria(newValue);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleSubMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setIsSubMenuOpen(!isSubMenuOpen);
+    setSubMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setIsSubMenuOpen(false);
+    setAnchorEl(null);
+    setSubMenuAnchorEl(null);
+  };
+
+  const handleSelect = (criteria: string) => {
+    setFilterCriteria(criteria);
+    handleClose();
   };
 
   return (
-    <FormControl sx={styles.selectWrapper}>
-      <InputLabel id='filter-label'>Sort by</InputLabel>
-      <Select
-        data-testid='filter-products'
-        labelId='filter-label'
-        id='filter-select'
-        value={value}
-        onChange={handleChange}>
-        <MenuItem value={'asc'}>Price: Low to High</MenuItem>
-        <MenuItem value={'desc'}>Price: High to Low</MenuItem>
-      </Select>
-    </FormControl>
+    <Box sx={styles.selectWrapper}>
+      <Button
+        aria-haspopup='true'
+        onClick={handleClick}
+        sx={styles.selectMenu}
+        variant='contained'>
+        <Sort sx={styles.icon} />
+        Filter
+      </Button>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        <MenuItem onClick={() => handleSelect('asc')}>
+          Price: Low to High
+        </MenuItem>
+        <MenuItem onClick={() => handleSelect('desc')}>
+          Price: High to Low
+        </MenuItem>
+        <MenuItem onClick={handleSubMenuClick} sx={styles.menuWithIcon}>
+          Category
+          <ListItemIcon>
+            {isSubMenuOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemIcon>
+        </MenuItem>
+        <Menu
+          anchorEl={subMenuAnchorEl}
+          open={Boolean(subMenuAnchorEl)}
+          onClose={handleClose}>
+          <MenuItem onClick={() => handleSelect('decor')}>Decor</MenuItem>
+          <MenuItem onClick={() => handleSelect('storage')}>Storage</MenuItem>
+        </Menu>
+      </Menu>
+    </Box>
   );
 };
 

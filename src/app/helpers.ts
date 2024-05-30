@@ -9,25 +9,26 @@ export const mapToCartProduct = (product: Product, quantity: number, user: strin
   totalPrice,
   itemPrice: product.price
 });
-
-export const mapToCMSProduct = ({ id, title, image, description, price, amount }: Product): ProductFromCMS => ({
+export const mapToCMSProduct = ({ id, title, image, description, price, amount, category }: Product): ProductFromCMS => ({
   id: id,
   attributes: {
     Title: title,
     Image: image,
     Description: description,
     Price: price,
-    Amount: amount
+    Amount: amount,
+    Category: category
   },
 });
 
-export const mapFromCMSProductToProduct = ({ id, attributes: { Title, Image, Description, Price, Amount } }: ProductFromCMS): Product => ({
+export const mapFromCMSProductToProduct = ({ id, attributes: { Title, Image, Description, Price, Amount, Category } }: ProductFromCMS): Product => ({
   title: Title,
   image: Image,
   description: Description,
   price: Price,
   amount: Amount,
-  id: id
+  id: id,
+  category: Category
 });
 
 export const mapFromCartProductToCMSProduct = ({ id, title, image, description, price, amount }: CartProduct): ProductFromCMS => ({
@@ -37,6 +38,7 @@ export const mapFromCartProductToCMSProduct = ({ id, title, image, description, 
     Image: image,
     Description: description,
     Price: price,
-    Amount: amount
+    Amount: amount,
+    Category: ''
   },
 });
