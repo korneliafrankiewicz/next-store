@@ -14,8 +14,7 @@ import { useProductById } from '@/services/productService';
 import { Star } from '@mui/icons-material';
 
 const ProductDetails = ({ id }: { id: number }) => {
-  const { productDetails, isLoading, isError } = useProductById(id);
-  console.log(productDetails);
+  const { data: productDetails, isLoading, isError } = useProductById(id);
 
   if (isLoading) {
     return <Spinner />;

@@ -113,7 +113,7 @@ const FilterProducts = ({
           anchorEl={subMenuAnchorEl}
           open={Boolean(subMenuAnchorEl)}
           onClose={handleClose}>
-          {categories.map((category) => (
+          {categories.map((category: string) => (
             <MenuItem key={category} onClick={() => handleSelect(category)}>
               {category}
             </MenuItem>

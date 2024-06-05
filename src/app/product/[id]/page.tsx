@@ -23,7 +23,7 @@ const styles = {
 
 const Product: NextPage = () => {
   const params = useParams();
-  const id = parseInt(params.id as string, 10);
+  const id = parseInt(params.id);
 
   return (
     <ThemeProvider theme={theme}>
