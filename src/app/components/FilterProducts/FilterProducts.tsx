@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { ExpandMore, ExpandLess, Sort } from '@mui/icons-material';
 import { useProducts } from '@/services/productService';
-import { mapFromCMSProductToProduct } from '@/app/helpers';
 
 const ThemeValues = {
   values: {
@@ -49,12 +48,11 @@ const FilterProducts = ({
 }: {
   setFilterCriteria: (criteria: string) => void;
 }) => {
-  const { data: products } = useProducts();
-  const mappedProducts = products.data.map(mapFromCMSProductToProduct);
+  const { products } = useProducts();
   const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
-    const uniqueCategories = mappedProducts.reduce(
+    const uniqueCategories = products.reduce(
       (categories: string[], product: { category: string }) => {
         return categories.includes(product.category)
           ? categories
@@ -63,7 +61,7 @@ const FilterProducts = ({
       []
     );
     setCategories(uniqueCategories);
-  }, [mappedProducts]);
+  }, [products]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState<null | HTMLElement>(

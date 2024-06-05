@@ -16,7 +16,9 @@ export const useProducts = () => {
     fetcher
   );
 
-  return { data,
+  const products = data?.data.map(mapFromCMSProductToProduct);
+
+  return {    products,
     isLoading: !error && !data,
     isError: error,};
 };
@@ -35,14 +37,12 @@ export const useProductById = (id: number) => {
 };
 
 export const useProductsForActionCards = (productCount: number) => {
-  const { data, isLoading, isError } = useProducts();
+  const { products, isLoading, isError } = useProducts();
 
-  const products = data?.data
-    .slice(0, productCount)
-    .map(mapFromCMSProductToProduct);
+  const slicedProducts = products?.slice(0, productCount);
 
   return {
-    products,
+    products: slicedProducts,
     isLoading,
     isError,
   };
