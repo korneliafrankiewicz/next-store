@@ -22,15 +22,21 @@ export const mapToCMSProduct = ({ id, title, image, description, price, amount, 
   },
 });
 
-export const mapFromCMSProductToProduct = ({ id, attributes: { Title, Image, Description, Price, Amount, Category } }: ProductFromCMS): Product => ({
-  title: Title,
-  image: Image,
-  description: Description,
-  price: Price,
-  amount: Amount,
-  id: id,
-  category: Category
-});
+export const mapFromCMSProductToProduct = (product: ProductFromCMS | undefined): Product | null => {
+  if (!product) return null;
+
+  const { id, attributes: { Title, Image, Description, Price, Amount, Category } } = product;
+
+  return {
+    title: Title,
+    image: Image,
+    description: Description,
+    price: Price,
+    amount: Amount,
+    id: id,
+    category: Category
+  };
+};
 
 export const mapFromCartProductToCMSProduct = ({ id, title, image, description, price, amount, category }: CartProduct): ProductFromCMS => ({
   id: id,

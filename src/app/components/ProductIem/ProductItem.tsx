@@ -12,9 +12,8 @@ import {
   Theme,
 } from '@mui/material';
 import { useCartStore } from '../../store/cart';
-import { mapFromCMSProductToProduct } from '@/app/helpers';
-import { ProductFromCMS } from '@/app/models/productFromCMS';
 import Link from 'next/link';
+import { Product } from '@/app/models/product';
 
 const Colors = {
   palette: {
@@ -62,15 +61,14 @@ const styles = {
   }),
 };
 
-const ProductItem = ({ product }: { product: ProductFromCMS }) => {
+const ProductItem = ({ product }: { product: Product }) => {
   const { addToCart }: { addToCart: Function } = useCartStore();
-  const productForComponent = mapFromCMSProductToProduct(product);
 
   let cartProduct = {
-    ...productForComponent,
-    amount: productForComponent.amount,
+    ...product,
+    amount: product.amount,
     user: 'username',
-    totalPrice: productForComponent.price,
+    totalPrice: product.price,
   };
 
   return (
@@ -81,18 +79,18 @@ const ProductItem = ({ product }: { product: ProductFromCMS }) => {
             <ListItemAvatar>
               <Avatar
                 sx={styles.image}
-                src={productForComponent.image}
-                alt={productForComponent.title}
+                src={product.image}
+                alt={product.title}
               />
             </ListItemAvatar>
             <Box sx={styles.productContent}>
               <ListItemText
                 sx={styles.title as SxProps<Theme>}
-                primary={productForComponent.title}
+                primary={product.title}
               />
               <ListItemText
                 sx={styles.description as SxProps<Theme>}
-                secondary={productForComponent.description}
+                secondary={product.description}
               />
             </Box>
           </Button>
@@ -100,9 +98,9 @@ const ProductItem = ({ product }: { product: ProductFromCMS }) => {
       </Box>
       <ListItemText
         sx={styles.price}
-        primary={`${productForComponent.price.toString()} zł`}
+        primary={`${product.price.toString()} zł`}
       />
-      <ListItemText secondary={productForComponent.category} />
+      <ListItemText secondary={product.category} />
 
       <IconButton onClick={() => addToCart(cartProduct)}>
         <AddShoppingCart sx={styles.icon as SxProps<Theme>} />

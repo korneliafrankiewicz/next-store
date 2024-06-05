@@ -11,21 +11,19 @@ import {
 } from '@mui/material';
 import Spinner from '../Spinner/Spinner';
 import { useProductById } from '@/services/productService';
-import { mapFromCMSProductToProduct } from '@/app/helpers';
 import { Star } from '@mui/icons-material';
 
 const ProductDetails = ({ id }: { id: number }) => {
-  const { data: product, isLoading, isError } = useProductById(id);
+  const { productDetails, isLoading, isError } = useProductById(id);
+  console.log(productDetails);
 
-  if (isLoading || isError || !product) {
-    return isLoading ? (
-      <Spinner />
-    ) : (
-      <Typography variant='h3'>Product not found</Typography>
-    );
+  if (isLoading) {
+    return <Spinner />;
   }
 
-  const productDetails = mapFromCMSProductToProduct(product.data);
+  if (isError || !productDetails) {
+    return <Typography variant='h3'>Product not found</Typography>;
+  }
 
   return (
     <Grid container spacing={3}>

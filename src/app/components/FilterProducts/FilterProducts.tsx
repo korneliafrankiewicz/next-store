@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Button,
   Menu,
@@ -49,10 +49,8 @@ const FilterProducts = ({
   setFilterCriteria: (criteria: string) => void;
 }) => {
   const { products } = useProducts();
-  const [categories, setCategories] = useState<string[]>([]);
-
-  useEffect(() => {
-    const uniqueCategories = products.reduce(
+  const categories = useMemo(() => {
+    return products.reduce(
       (categories: string[], product: { category: string }) => {
         return categories.includes(product.category)
           ? categories
@@ -60,7 +58,6 @@ const FilterProducts = ({
       },
       []
     );
-    setCategories(uniqueCategories);
   }, [products]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

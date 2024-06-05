@@ -4,8 +4,8 @@ import { ProductFromCMS } from '@/app/models/productFromCMS';
 import ProductItem from '../ProductIem/ProductItem';
 import Spinner from '../Spinner/Spinner';
 import FilterProducts from '../FilterProducts/FilterProducts';
-import { mapToCMSProduct } from '@/app/helpers';
 import { useState } from 'react';
+import { Product } from '@/app/models/product';
 
 const styles = {
   productsWrapper: {
@@ -27,24 +27,31 @@ const ProductList = () => {
   if (isError) return <Typography variant='body3'>Failed to load</Typography>;
   if (isLoading) return <Spinner />;
 
-  let filteredProducts = [...products];
+  const filterProducts = (
+    products: Product[],
+    sort: 'asc' | 'desc' | string
+  ) => {
+    let filteredProducts = [...products];
 
-  if (filterCriteria === 'asc') {
-    filteredProducts.sort((a, b) => a.price - b.price);
-  } else if (filterCriteria === 'desc') {
-    filteredProducts.sort((a, b) => b.price - a.price);
-  } else if (filterCriteria) {
-    filteredProducts = filteredProducts.filter(
-      (product) => product.category === filterCriteria
-    );
-  }
+    if (sort === 'asc') {
+      filteredProducts.sort((a, b) => a.price - b.price);
+    } else if (sort === 'desc') {
+      filteredProducts.sort((a, b) => b.price - a.price);
+    } else if (sort) {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.category === sort
+      );
+    }
 
-  const remappedProducts = filteredProducts.map(mapToCMSProduct);
+    return filteredProducts;
+  };
+
+  const sortedOrFilteredProducts = filterProducts(products, filterCriteria);
 
   return (
     <Box sx={styles.productsWrapper}>
       <FilterProducts setFilterCriteria={setFilterCriteria} />
-      {remappedProducts.map((product: ProductFromCMS, index: number) => (
+      {sortedOrFilteredProducts.map((product: Product, index: number) => (
         <ProductItem key={index} product={product} />
       ))}
     </Box>
