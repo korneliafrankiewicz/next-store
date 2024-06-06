@@ -1,22 +1,13 @@
 import React, { useMemo, useState } from 'react';
-import {
-  Button,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  Theme,
-  Box,
-} from '@mui/material';
-import { ExpandMore, ExpandLess, Sort } from '@mui/icons-material';
+import { Button, Menu, Box, Theme } from '@mui/material';
 import { useProducts } from '@/services/productService';
+import SortingFilter from './SortingFilter/SortingFilter';
+import CategoryFilter from './CategoryFilter/CategoryFilter';
+import { Sort } from '@mui/icons-material';
 
 const ThemeValues = {
   values: {
     sm: '768px',
-  },
-  palette: {
-    BEIGE: '#D7AC85',
-    WHITE: '#FFFFFF',
   },
 };
 
@@ -36,10 +27,6 @@ const styles = {
   }),
   icon: {
     paddingRight: '10px',
-  },
-  menuWithIcon: {
-    display: ' flex',
-    justifyContent: 'space-between',
   },
 };
 
@@ -61,64 +48,36 @@ const FilterProducts = ({
   }, [products]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [subMenuAnchorEl, setSubMenuAnchorEl] = useState<null | HTMLElement>(
-    null
-  );
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleSubMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-    setIsSubMenuOpen(!isSubMenuOpen);
-    setSubMenuAnchorEl(event.currentTarget);
-  };
-
   const handleClose = () => {
-    setIsSubMenuOpen(false);
     setAnchorEl(null);
-    setSubMenuAnchorEl(null);
   };
-
-  const handleSelect = (criteria: string) => {
-    setFilterCriteria(criteria);
-    handleClose();
-  };
-
   return (
     <Box sx={styles.selectWrapper}>
       <Button
         aria-haspopup='true'
         onClick={handleClick}
-        sx={styles.selectMenu}
-        variant='contained'>
+        variant='contained'
+        sx={styles.selectMenu}>
         <Sort sx={styles.icon} />
         Filter
       </Button>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem onClick={() => handleSelect('asc')}>
-          Price: Low to High
-        </MenuItem>
-        <MenuItem onClick={() => handleSelect('desc')}>
-          Price: High to Low
-        </MenuItem>
-        <MenuItem onClick={handleSubMenuClick} sx={styles.menuWithIcon}>
-          Category
-          <ListItemIcon>
-            {isSubMenuOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItemIcon>
-        </MenuItem>
-        <Menu
-          anchorEl={subMenuAnchorEl}
-          open={Boolean(subMenuAnchorEl)}
-          onClose={handleClose}>
-          {categories.map((category: string) => (
-            <MenuItem key={category} onClick={() => handleSelect(category)}>
-              {category}
-            </MenuItem>
-          ))}
-        </Menu>
+        <SortingFilter
+          sort='desc'
+          options={[
+            { type: 'asc', label: 'Price: Low to High' },
+            { type: 'desc', label: 'Price: High to Low' },
+          ]}
+          onSortChange={setFilterCriteria}
+        />
+        <CategoryFilter
+          categories={categories}
+          onCategoryChange={setFilterCriteria}
+        />
       </Menu>
     </Box>
   );
