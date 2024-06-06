@@ -1,12 +1,12 @@
-import React from 'react';
-import { Box, Button, Typography } from '@mui/material/';
+import React, { useState } from 'react';
+import { Box, Button, Typography, Alert } from '@mui/material/';
 import { useCartStore } from '../../store/cart';
 import { useUserStore } from '@/app/store/user';
 import CartItem from '../CartItem/CartItem';
-import Link from 'next/link';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { submitOrder } from '@/services/submitOrderService';
 import { useCartQuantity } from '@/app/store/hooks/useCart';
+import { useRouter } from 'next/router';
 
 const styles = {
   productsWrapper: {
@@ -34,12 +34,19 @@ const styles = {
 
 const Cart = () => {
   const { items, clearCart, total } = useCartStore();
-  const { user } = useUserStore();
+  const { user, isLoggedIn } = useUserStore();
   const totalQuantity = useCartQuantity(items);
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const router = useRouter();
 
   const processOrder = async () => {
+    if (!isLoggedIn) {
+      setShowLoginAlert(true);
+      return;
+    }
     try {
       await submitOrder(items, user, totalQuantity, total);
+      router.push('/cart/order');
       clearCart();
     } catch (error) {
       console.error(error);
@@ -55,11 +62,12 @@ const Cart = () => {
         <Typography sx={styles.text}>Clear cart</Typography>
         <DeleteIcon />
       </Button>
-      <Link style={styles.buttonLink} href='/cart/order'>
-        <Button variant='contained' onClick={processOrder}>
-          Submit order
-        </Button>
-      </Link>
+      <Button variant='contained' onClick={processOrder}>
+        Submit order
+      </Button>
+      {showLoginAlert && (
+        <Alert severity='info'>Please log in or register</Alert>
+      )}
     </Box>
   );
 };
