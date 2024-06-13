@@ -1,18 +1,19 @@
 import React from 'react';
-import { AddShoppingCart, Map } from '@mui/icons-material';
+import { AddShoppingCart } from '@mui/icons-material';
 import {
   ListItem,
   ListItemAvatar,
   Avatar,
   Box,
+  Button,
   ListItemText,
   IconButton,
   SxProps,
   Theme,
 } from '@mui/material';
 import { useCartStore } from '../../store/cart';
-import { mapFromCMSProductToProduct } from '@/app/helpers';
-import { ProductFromCMS } from '@/app/models/productFromCMS';
+import Link from 'next/link';
+import { Product } from '@/app/models/product';
 
 const Colors = {
   palette: {
@@ -32,15 +33,25 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     paddingLeft: '30px',
-    maxWidth: '60%',
+    textAlign: 'left',
+  },
+  title: (theme: MyTheme) => ({
+    color: `${theme.palette.DARK_BROWN}`,
+  }),
+  description: (theme: MyTheme) => ({
+    textTransform: 'lowercase',
+  }),
+  wrapper: {
     width: '60%',
   },
-
   price: {
     display: 'flex',
     justifyContent: 'center',
   },
-
+  button: {
+    width: '100%',
+    justifyContent: 'flex-start',
+  },
   image: {
     width: '80px',
     height: '80px',
@@ -50,34 +61,47 @@ const styles = {
   }),
 };
 
-const ProductItem = ({ product }: { product: ProductFromCMS }) => {
+const ProductItem = ({ product }: { product: Product }) => {
   const { addToCart }: { addToCart: Function } = useCartStore();
-  const productForComponent = mapFromCMSProductToProduct(product);
 
   let cartProduct = {
-    ...productForComponent,
-    amount: productForComponent.amount,
+    ...product,
+    amount: product.amount,
     user: 'username',
-    totalPrice: productForComponent.price,
+    totalPrice: product.price,
   };
 
   return (
     <ListItem sx={styles.productItem as SxProps<Theme>}>
-      <ListItemAvatar>
-        <Avatar
-          sx={styles.image}
-          src={productForComponent.image}
-          alt={productForComponent.title}
-        />
-      </ListItemAvatar>
-      <Box sx={styles.productContent}>
-        <ListItemText primary={productForComponent.title} />
-        <ListItemText secondary={productForComponent.description} />
+      <Box sx={styles.wrapper}>
+        <Link href={`/product/${product.id}`}>
+          <Button sx={styles.button} variant='productItem'>
+            <ListItemAvatar>
+              <Avatar
+                sx={styles.image}
+                src={product.image}
+                alt={product.title}
+              />
+            </ListItemAvatar>
+            <Box sx={styles.productContent}>
+              <ListItemText
+                sx={styles.title as SxProps<Theme>}
+                primary={product.title}
+              />
+              <ListItemText
+                sx={styles.description as SxProps<Theme>}
+                secondary={product.description}
+              />
+            </Box>
+          </Button>
+        </Link>
       </Box>
       <ListItemText
         sx={styles.price}
-        primary={`${productForComponent.price.toString()} zł`}
+        primary={`${product.price.toString()} zł`}
       />
+      <ListItemText secondary={product.category} />
+
       <IconButton onClick={() => addToCart(cartProduct)}>
         <AddShoppingCart sx={styles.icon as SxProps<Theme>} />
       </IconButton>

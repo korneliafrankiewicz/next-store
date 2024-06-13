@@ -16,20 +16,33 @@ export const useProducts = () => {
     fetcher
   );
 
-  return { data,
+  const products = data?.data.map(mapFromCMSProductToProduct);
+
+  return {    products,
     isLoading: !error && !data,
     isError: error,};
 };
 
-export const useProductsForActionCards = (productCount: number) => {
-  const { data, isLoading, isError } = useProducts();
-
-  const products = data?.data
-    .slice(0, productCount)
-    .map(mapFromCMSProductToProduct);
+export const useProductById = (id: number) => {
+  const { data, error } = useSWR(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${id}`,
+    fetcher
+  );
 
   return {
-    products,
+    data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
+
+export const useProductsForActionCards = (productCount: number) => {
+  const { products, isLoading, isError } = useProducts();
+
+  const slicedProducts = products?.slice(0, productCount);
+
+  return {
+    products: slicedProducts,
     isLoading,
     isError,
   };

@@ -6,5 +6,6 @@ export const colors = {
     DEEP_BROWN: '#9F6749',
     DARK_BROWN: '#492D29',
     LIGHT_BROWN: '#a26948',
-    WHITE: '#FFFFFF'
+    WHITE: '#FFFFFF',
+    LIGHT: '#FAF0E1'
 }

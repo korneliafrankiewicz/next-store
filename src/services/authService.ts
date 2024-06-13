@@ -1,4 +1,5 @@
-import useSWRMutation from 'swr/mutation'
+import useSWRMutation from 'swr/mutation';
+import { serialize } from 'cookie';
 
 interface LoginData { 
   identifier: string;
@@ -66,9 +67,15 @@ interface LoginError {
         })
       );
     }
+    const responseData = await response.json();
+
+    document.cookie = serialize('userSession', JSON.stringify(responseData.user), {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    });
 
     return {
-      data: await response.json(),
+      data: responseData,
       status: response.status,
     };
 

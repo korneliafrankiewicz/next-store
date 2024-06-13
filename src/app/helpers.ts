@@ -10,33 +10,42 @@ export const mapToCartProduct = (product: Product, quantity: number, user: strin
   itemPrice: product.price
 });
 
-export const mapToCMSProduct = ({ id, title, image, description, price, amount }: Product): ProductFromCMS => ({
+export const mapToCMSProduct = ({ id, title, image, description, price, amount, category }: Product): ProductFromCMS => ({
   id: id,
   attributes: {
     Title: title,
     Image: image,
     Description: description,
     Price: price,
-    Amount: amount
+    Amount: amount,
+    Category: category
   },
 });
 
-export const mapFromCMSProductToProduct = ({ id, attributes: { Title, Image, Description, Price, Amount } }: ProductFromCMS): Product => ({
-  title: Title,
-  image: Image,
-  description: Description,
-  price: Price,
-  amount: Amount,
-  id: id
-});
+export const mapFromCMSProductToProduct = (product: ProductFromCMS | undefined): Product | null => {
+  if (!product) return null;
 
-export const mapFromCartProductToCMSProduct = ({ id, title, image, description, price, amount }: CartProduct): ProductFromCMS => ({
+  const { id, attributes: { Title, Image, Description, Price, Amount, Category } } = product;
+
+  return {
+    title: Title,
+    image: Image,
+    description: Description,
+    price: Price,
+    amount: Amount,
+    id: id,
+    category: Category
+  };
+};
+
+export const mapFromCartProductToCMSProduct = ({ id, title, image, description, price, amount, category }: CartProduct): ProductFromCMS => ({
   id: id,
   attributes: {
     Title: title,
     Image: image,
     Description: description,
     Price: price,
-    Amount: amount
+    Amount: amount,
+    Category: category
   },
 });
