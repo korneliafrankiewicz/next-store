@@ -13,7 +13,12 @@ import Spinner from '../Spinner/Spinner';
 import { useProductById } from '@/services/productService';
 import { Star } from '@mui/icons-material';
 
-const ProductDetails = ({ id }: { id: number }) => {
+interface ProductDetailsProps {
+  id: number;
+  recommendations: any[]; // Add type
+}
+
+const ProductDetails = ({ id, recommendations }: ProductDetailsProps) => {
   const { data: productDetails, isLoading, isError } = useProductById(id);
 
   if (isLoading) {
@@ -65,18 +70,16 @@ const ProductDetails = ({ id }: { id: number }) => {
         </form>
         <Typography variant='h5'>Product Details</Typography>
         <Typography variant='body1'>{productDetails.description}</Typography>
-        <Typography variant='h6'>Specifications</Typography>
-        <ul>
-          <li>Prism-inspired design</li>
-          <li>Durable and comfortable construction</li>
-          <li>Available in multiple color options</li>
-          <li>Suitable for living rooms, dens, and more</li>
-        </ul>
-        <Typography variant='h6'>Materials</Typography>
-        <ul>
-          <li>High-quality wood frame</li>
-          <li>Plush, durable upholstery</li>
-        </ul>
+        <Typography variant='h4'>Recommended Products</Typography>
+        {recommendations.map((recommendation) => (
+          <div key={recommendation.id}>
+            <Typography variant='h5'>{recommendation.title}</Typography>
+            <Typography variant='body1'>
+              {recommendation.description}
+            </Typography>
+            <Typography variant='h6'>{recommendation.price} zł</Typography>
+          </div>
+        ))}
       </Grid>
     </Grid>
   );

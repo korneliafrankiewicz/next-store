@@ -6,7 +6,7 @@ import CartItem from '../CartItem/CartItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { submitOrder } from '@/services/submitOrderService';
 import { useCartQuantity } from '@/app/store/hooks/useCart';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const styles = {
   productsWrapper: {
