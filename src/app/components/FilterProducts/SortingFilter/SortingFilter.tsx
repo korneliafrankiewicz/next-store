@@ -7,7 +7,7 @@ type SortingFilterProps = {
   onSortChange: (sort: 'asc' | 'desc') => void;
 };
 
-const SortingFilter: React.FC<SortingFilterProps> = ({
+export const SortingFilter: React.FC<SortingFilterProps> = ({
   sort,
   options,
   onSortChange,
@@ -33,5 +33,3 @@ const SortingFilter: React.FC<SortingFilterProps> = ({
     </>
   );
 };
-
-export default SortingFilter;

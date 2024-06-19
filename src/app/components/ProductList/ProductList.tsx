@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import { useProducts } from '../../../services/productService';
-import { ProductFromCMS } from '@/app/models/productFromCMS';
 import ProductItem from '../ProductIem/ProductItem';
 import Spinner from '../Spinner/Spinner';
 import FilterProducts from '../FilterProducts/FilterProducts';
 import { useState } from 'react';
 import { Product } from '@/app/models/product';
+import { Search } from '@/app/components/Search/Search';
 
 const styles = {
   productsWrapper: {
@@ -23,6 +23,7 @@ const styles = {
 const ProductList = () => {
   const { products, isLoading, isError } = useProducts();
   const [filterCriteria, setFilterCriteria] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   if (isError) return <Typography variant='body3'>Failed to load</Typography>;
   if (isLoading) return <Spinner />;
@@ -46,12 +47,26 @@ const ProductList = () => {
     return filteredProducts;
   };
 
+  const searchProducts = (products: Product[], query: string) => {
+    if (!query) return products;
+    return products.filter(
+      (product: { title: string; description: string }) =>
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase())
+    );
+  };
+
   const sortedOrFilteredProducts = filterProducts(products, filterCriteria);
+  const filteredAndSearchedProducts = searchProducts(
+    sortedOrFilteredProducts,
+    searchQuery
+  );
 
   return (
     <Box sx={styles.productsWrapper}>
+      <Search onSearch={setSearchQuery} />
       <FilterProducts setFilterCriteria={setFilterCriteria} />
-      {sortedOrFilteredProducts.map((product: Product, index: number) => (
+      {filteredAndSearchedProducts.map((product: Product, index: number) => (
         <ProductItem key={index} product={product} />
       ))}
     </Box>
