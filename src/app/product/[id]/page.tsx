@@ -5,7 +5,6 @@ import type { NextPage } from 'next';
 import BaseLayout from '../../components/BaseLayout/BaseLayout';
 import ProductDetails from '../../components/ProductDetails/ProductDetails';
 import { useParams } from 'next/navigation';
-import { getProductRecommendations } from '../../../../recommenttions';
 import { useEffect, useState } from 'react';
 
 const Colors = {
@@ -30,7 +29,31 @@ const Product: NextPage = () => {
   const [recommendations, setRecommendations] = useState<any[]>([]);
 
   useEffect(() => {
-    getProductRecommendations(id).then(setRecommendations).catch(console.error);
+    const fetchRecommendations = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/recommendations`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch recommendations');
+        }
+
+        const data = await response.json();
+        setRecommendations(data.recommendations);
+      } catch (error) {
+        console.error('Error fetching recommendations:', error);
+      }
+    };
+
+    fetchRecommendations();
   }, [id]);
 
   return (
