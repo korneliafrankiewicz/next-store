@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Button, Menu, Box, Theme } from '@mui/material';
 import { useProducts } from '@/services/productService';
-import SortingFilter from './SortingFilter/SortingFilter';
-import CategoryFilter from './CategoryFilter/CategoryFilter';
+import { SortingFilter } from './SortingFilter/SortingFilter';
+import { CategoryFilter } from './CategoryFilter/CategoryFilter';
 import { Sort } from '@mui/icons-material';
 
 const ThemeValues = {

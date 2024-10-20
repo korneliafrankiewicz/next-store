@@ -14,7 +14,7 @@ type CategoryFilterProps = {
   onCategoryChange: (category: string) => void;
 };
 
-const CategoryFilter: React.FC<CategoryFilterProps> = ({
+export const CategoryFilter: React.FC<CategoryFilterProps> = ({
   categories,
   onCategoryChange,
 }) => {
@@ -53,4 +53,3 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
   );
 };
 
-export default CategoryFilter;
